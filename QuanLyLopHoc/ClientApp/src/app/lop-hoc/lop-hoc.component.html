@@ -1,0 +1,26 @@
+<h1 id="tableLabel">Lớp học</h1>
+
+<div class="d-flex">
+  <p>Danh sách tất cả lớp học.</p>
+  <div class="spacer"></div>
+  <button class="btn btn-light"><span class="ti ti-plus me-2 text-success"></span>Thêm lớp học</button>
+</div>
+
+<p *ngIf="!forecasts"><em>Loading...</em></p>
+
+<table class='table table-striped' *ngIf="forecasts">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Tên lớp học</th>
+      <th>Số sinh viên</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ forecast.id }}</td>
+      <td>{{ forecast.tenLopHoc }}</td>
+      <td>{{ forecast.sinhViens.length }}</td>
+    </tr>
+  </tbody>
+</table>

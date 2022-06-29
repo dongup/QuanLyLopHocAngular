@@ -3,7 +3,7 @@
 <div class="d-flex">
   <p>Danh sách tất cả lớp học.</p>
   <div class="spacer"></div>
-  <button class="btn btn-light"><span class="ti ti-plus me-2 text-success"></span>Thêm lớp học</button>
+  <button class="btn btn-light" (click)="toAddPage()"><span class="ti ti-plus me-2 text-success"></span>Thêm lớp học</button>
 </div>
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
@@ -14,6 +14,7 @@
       <th>Id</th>
       <th>Tên lớp học</th>
       <th>Số sinh viên</th>
+      <th class="autosize-column"></th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,9 @@
       <td>{{ forecast.id }}</td>
       <td>{{ forecast.tenLopHoc }}</td>
       <td>{{ forecast.sinhViens.length }}</td>
+      <th class="autosize-column p-0">
+        <button class="btn btn-light" title="Xóa" (click)="xoaLopHoc(forecast)"><span class="ti ti-minus text-danger"></span></button>
+      </th>
     </tr>
   </tbody>
 </table>

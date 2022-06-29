@@ -28,10 +28,14 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css",
-              "src/tabler-icons.min.css"
+              "src/assets/css/styles.css",
+              "src/assets/css/toastr.css",
+              "src/assets/css/tabler-icons.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/toastr.js",
+              "src/assets/js/jquery_3.6.0.js"
+            ]
           },
           "configurations": {
             "production": {

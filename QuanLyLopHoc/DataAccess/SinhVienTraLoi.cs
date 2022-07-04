@@ -14,6 +14,8 @@ namespace QuanLyLopHoc.DataAccess
 
         public int IdBaiTap { get; set; }
 
+        public int IdLopHoc { get; set; }
+
         public string CauTraLoi { get; set; }
 
         [ForeignKey(nameof(IdSinhVien))]

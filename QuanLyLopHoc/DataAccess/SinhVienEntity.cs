@@ -12,6 +12,7 @@ namespace QuanLyLopHoc.DataAccess
         }
 
         public int IdLopHoc { get; set; }
+
         public string HoVaTen { get; set; }
 
         public string MaSinhVien { get; set; }

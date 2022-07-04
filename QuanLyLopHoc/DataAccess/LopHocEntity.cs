@@ -13,5 +13,6 @@ namespace QuanLyLopHoc.DataAccess
         public string TenLopHoc { get; set; }
 
         public ICollection<SinhVienEntity> SinhViens { get; set; }
+        public ICollection<BaiTapEntity> BaiTaps { get; set; }
     }
 }

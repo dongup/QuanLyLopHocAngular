@@ -1,0 +1,37 @@
+<app-nav-menu-nop-bai (nopBai)="nopBai()"></app-nav-menu-nop-bai>
+
+<div class="container d-flex">
+  <ul class="nav d-flex flex-column h-100 border-right" style="width: 100px">
+    <li *ngFor="let baiTap of baiTaps" class="nav-item hand {{slctedBaiTap?.id == baiTap?.id? 'active' : ''}}"
+        (click)="onClickBaiTap(baiTap.id)">
+      <span class="nav-link">Câu {{baiTap.stt}}</span>
+    </li>
+  </ul>
+  <div class="spacer px-4" style="max-height: calc(100vh - 80px); overflow-y: auto">
+    <div *ngIf="slctedBaiTap">
+      <h4>Câu {{slctedBaiTap.stt}}</h4>
+      <div style="white-space: pre-line;">
+        {{slctedBaiTap.noiDung}}
+      </div>
+
+      <div class="d-flex">
+        <h5 class="mt-2">Trả lời</h5>
+        <div class="spacer"></div>
+        <!--<button class="btn btn-light" (click)="runCode()">
+          <span class="ti ti-player-play text-success me-2"></span> Run
+        </button>-->
+      </div>
+      <div style="height: 350px">
+        <!--Editorr-->
+        <ngx-monaco-editor [(ngModel)]="slctedBaiTap.traLoi" [options]="editorOptions" style="height: 100%"></ngx-monaco-editor>
+      </div>
+
+      <!--<h5>Kết quả</h5>
+      <div style=""></div>-->
+    </div>
+
+    <div *ngIf="!slctedBaiTap">
+      Đang tải...
+    </div>
+  </div>
+</div>

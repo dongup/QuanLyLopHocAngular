@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using QuanLyLopHoc.DataAccess;
 
@@ -41,7 +42,7 @@ services.AddSwaggerGen(c =>
     //c.IncludeXmlComments(xmlDocPath);
 });
 services.AddControllers();
-services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("default")));
+services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("iot")));
 
 services.AddCors(options =>
 {
@@ -55,6 +56,13 @@ services.AddCors(options =>
         });
 });
 
+services.Configure<FormOptions>(o =>
+{
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartBodyLengthLimit = int.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
+});
+
 var app = builder.Build();
 
 app.UseCors("AllowAllOrigin");
@@ -63,10 +71,10 @@ app.UseCors("AllowAllOrigin");
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    //app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 

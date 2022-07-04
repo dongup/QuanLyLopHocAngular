@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getBaseUrl() {
-  return 'https://localhost:5000/api/';//document.baseURI;
+  return 'http://localhost:5000/api/';//document.baseURI;
 }
 
 const providers = [

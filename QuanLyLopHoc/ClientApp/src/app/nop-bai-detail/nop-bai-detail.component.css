@@ -1,0 +1,39 @@
+.page-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a{
+    color: black;
+}
+
+.active{
+    background-color: whitesmoke;
+    border-right: 4px solid steelblue
+}
+
+.active .nav-link{
+  color: steelblue;
+}
+
+.nav-link{
+    color: black;
+}
+
+.ngs-code-editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+

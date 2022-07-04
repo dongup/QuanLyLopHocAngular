@@ -6,9 +6,9 @@
   <button class="btn btn-light" (click)="toAddPage()"><span class="ti ti-plus me-2 text-success"></span>Thêm lớp học</button>
 </div>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<p *ngIf="!lopHocs"><em>Loading...</em></p>
 
-<table class='table table-striped' *ngIf="forecasts">
+<table class='table table-striped' *ngIf="lopHocs">
   <thead>
     <tr>
       <th>Id</th>
@@ -18,12 +18,22 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.id }}</td>
-      <td>{{ forecast.tenLopHoc }}</td>
-      <td>{{ forecast.sinhViens.length }}</td>
+    <tr *ngFor="let lopHoc of lopHocs">
+      <td>{{ lopHoc.id }}</td>
+      <td>{{ lopHoc.tenLopHoc }}</td>
+      <td>{{ lopHoc.sinhViens.length }}</td>
       <th class="autosize-column p-0">
-        <button class="btn btn-light" title="Xóa" (click)="xoaLopHoc(forecast)"><span class="ti ti-minus text-danger"></span></button>
+        <div class="d-flex">
+          <a class="btn btn-light no-transform" [routerLink]="['/admin/lop-hoc/cham-diem', lopHoc.id]"
+             [title]="'Chấm điểm'">
+            <span class="ti ti-north-star me-2 text-danger"></span>Chấm điểm
+          </a>
+          <a class="btn btn-light" [title]="'Sửa'"
+             [routerLink]="['/admin/lop-hoc/edit', lopHoc.id]">
+            <span class="ti ti-edit text-warning"></span>
+          </a>
+          <button class="btn btn-light" title="Xóa" (click)="xoaLopHoc(lopHoc)"><span class="ti ti-minus text-danger"></span></button>
+        </div>
       </th>
     </tr>
   </tbody>

@@ -6,6 +6,14 @@
   font-size: 18px !important;
 }
 
+.border-dashed {
+  border: 1px dashed gray;
+  border-radius: 8px;
+}
+
+.border-right {
+  border-right: 1px solid gray;
+}
 
 .bg-primary {
   color: white !important;

@@ -27,7 +27,7 @@ namespace QuanLyLopHoc.Utils
                         {
                             childProperty.SetValue(child, parentProperty.GetValue(parent));
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             //Console.WriteLine(ex.Message);
                         } 

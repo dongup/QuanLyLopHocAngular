@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuanLyLopHoc.DataAccess;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.RequestModel;
@@ -47,7 +48,14 @@ namespace QuanLyLopHoc.Controllers
                     x.TenLopHoc,
                     SinhViens = x.SinhViens.Select(x => new
                     {
-                        x.HoVaTen
+                        x.HoVaTen,
+                        x.MaSinhVien
+                    }),
+                    BaiTaps = x.BaiTaps.Select(x => new
+                    {
+                        x.NoiDung,
+                        x.TieuDe,
+                        Stt = x.STT
                     })
                 })
                 .FirstOrDefault();
@@ -60,12 +68,23 @@ namespace QuanLyLopHoc.Controllers
         {
             var newItem = new LopHocEntity();
             value.CopyTo(newItem);
-            newItem.SinhViens = _context.SinhViens.Where(x => value.SinhVienIds.Contains(x.Id)).ToList();
+            newItem.SinhViens = value.SinhViens.Select(x => new SinhVienEntity()
+            {
+                HoVaTen = x.HoVaTen,
+                MaSinhVien = x.MaSinhVien
+            }).ToList(); 
+            
+            newItem.BaiTaps = value.BaiTaps.Select(x => new BaiTapEntity()
+            {
+                TieuDe = x.TieuDe,
+                NoiDung = x.NoiDung,
+                STT = x.STT
+            }).ToList();
 
             _context.LopHocs.Add(newItem);
             _context.SaveChanges();
 
-            return rspns.Succeed();
+            return rspns.Succeed($"Đã tạo lớp học {value.TenLopHoc}!");
         }
 
         // PUT api/LopHoc/5
@@ -73,12 +92,27 @@ namespace QuanLyLopHoc.Controllers
         public ResponseModel Put(int id, LopHocRequestUpdate value)
         {
             var savedItem = _context.LopHocs
+                .Include(x => x.BaiTaps)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
             value.CopyTo(savedItem);
             savedItem.Id = id;
+            var newBaiTaps = _context.BaiTaps
+                .Where(x => value.BaiTaps.Select(a => a.Id).Contains(x.Id))
+                .ToList();
+            newBaiTaps.AddRange(value.BaiTaps
+                      .Where(x => x.Id == 0)
+                      .Select(x => new BaiTapEntity()
+                      {
+                         Id = 0,
+                         NoiDung = x.NoiDung,
+                         TieuDe = x.TieuDe,
+                         STT = x.STT,
+                      }).ToList());
+            savedItem.BaiTaps = newBaiTaps;
+
             _context.SaveChanges();
-            return rspns.Succeed();
+            return rspns.Succeed($"Đã cập nhập lớp học {id}!");
         }
 
         // DELETE api/LopHoc/5
@@ -90,7 +124,7 @@ namespace QuanLyLopHoc.Controllers
                 .FirstOrDefault();
             savedItem.IsDeleted = true;
             _context.SaveChanges();
-            return rspns.Succeed();
+            return rspns.Succeed($"Đã xóa lớp học {savedItem.TenLopHoc}!");
         }
     }
 }

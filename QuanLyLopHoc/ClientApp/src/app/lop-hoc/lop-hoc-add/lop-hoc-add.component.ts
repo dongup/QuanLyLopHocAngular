@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LopHoc } from '../lop-hoc.component';
+import { LopHoc, SinhVien } from '../../models/interfaces';
 import { ResponseModel } from '../../models/response-model'
+import { ToastrService } from 'ngx-toastr';
+import { UploadFileResult } from '../../upload/upload.component';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-lop-hoc-add',
@@ -14,19 +17,48 @@ export class LopHocAddComponent implements OnInit {
   newLopHoc: LopHoc = {
     id: 0,
     sinhViens: [],
-    tenLopHoc: ''
+    tenLopHoc: '',
+    baiTaps: []
   };
+  dbPath: string = '';
 
   constructor(private http: HttpClient
     , @Inject('BASE_URL') private baseUrl: string
     , private router: Router
     , private route: ActivatedRoute
-    , private formBuilder: FormBuilder) {
+    , private formBuilder: UntypedFormBuilder
+    , private toastr: ToastrService) {
    
   }
 
   ngOnInit(): void {
 
+  }
+
+  addBaiTap() {
+    this.newLopHoc.baiTaps.push({
+      noiDung: '',
+      tieuDe: '',
+      stt: this.newLopHoc.baiTaps.length + 1,
+      localId: v4(),
+      id: 0
+    })
+  }
+
+  removeBaiTap(idBaiTap: string) {
+    this.newLopHoc.baiTaps = this.newLopHoc.baiTaps.filter(x => x.localId != idBaiTap);
+  }
+
+  excelUploaded(rspns: ResponseModel<UploadFileResult>) {
+    let filePath: string = rspns.result.filePath;
+    this.http.get(this.baseUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
+      .subscribe((content) => {
+        let rspns = content as ResponseModel<SinhVien[]>;
+
+        this.newLopHoc.sinhViens = rspns.result;
+        //this.goBack();
+      }
+        , error => console.error(error));
   }
 
   goBack() {
@@ -35,10 +67,10 @@ export class LopHocAddComponent implements OnInit {
 
   submitAdd() {
     this.http.post(this.baseUrl + 'lophoc', this.newLopHoc)
-      .subscribe(rspns => {
+      .subscribe(content => {
+        let rspns = content as ResponseModel<string>;
+        this.toastr.success(rspns.result);
         this.goBack();
-        console.log(rspns);
-        //this.forecasts= rspns.result;
       }
       , error => console.error(error));
   }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyLopHoc.DataAccess
 {
@@ -16,5 +17,8 @@ namespace QuanLyLopHoc.DataAccess
         public string TieuDe { get; set; }
 
         public string NoiDung { get; set; }
+
+        [ForeignKey(nameof(IdLopHoc))]
+        public virtual LopHocEntity LopHoc { get; set; }
     }
 }

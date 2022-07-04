@@ -14,8 +14,7 @@ namespace QuanLyLopHoc.Utils
     public static class AppExtensions
     {
 
-        public static string ToStringVN<T>(this T enumerationValue)
-    where T : struct
+        public static string ToStringVN<T>(this T enumerationValue) where T : struct
         {
             Type type = enumerationValue.GetType();
             if (!type.IsEnum)
@@ -40,6 +39,12 @@ namespace QuanLyLopHoc.Utils
             return enumerationValue.ToString();
         }
 
+        public static string ToTitleCase(this string value)
+        {
+            var textinfo = new CultureInfo("en-US", false).TextInfo;
+            return textinfo.ToTitleCase(value);
+        }
+
         public static string RemoveUnicode(this string input)
         {
             if (input == null) return "";
@@ -56,6 +61,11 @@ namespace QuanLyLopHoc.Utils
                 str2 = str2.Remove(str2.IndexOf("?"), 1);
             }
             return str2;
+        }
+
+        public static string RemoveSpace(this string input)
+        {
+            return input.Replace(" ", "");
         }
 
         public static string ToLinuxPath(this string str)

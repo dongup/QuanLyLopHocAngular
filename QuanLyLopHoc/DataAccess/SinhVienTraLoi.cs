@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyLopHoc.DataAccess
 {
@@ -14,5 +15,11 @@ namespace QuanLyLopHoc.DataAccess
         public int IdBaiTap { get; set; }
 
         public string CauTraLoi { get; set; }
+
+        [ForeignKey(nameof(IdSinhVien))]
+        public virtual SinhVienEntity SinhVien { get; set; }
+
+        [ForeignKey(nameof(IdBaiTap))]
+        public virtual BaiTapEntity BaiTap { get; set; }
     }
 }

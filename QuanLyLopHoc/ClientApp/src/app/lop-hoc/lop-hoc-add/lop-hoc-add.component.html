@@ -8,27 +8,62 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="form-group mb-2">
         <label for="tenLopHoc" class="form-label">Tên lớp học</label>
-        <input id="tenLopHoc" name="tenLopHoc" class="form-control" [(ngModel)]="newLopHoc.tenLopHoc" placeholder="Nhập tên lớp..." />
+        <input id="tenLopHoc" required name="tenLopHoc" class="form-control" [(ngModel)]="newLopHoc.tenLopHoc" placeholder="Nhập tên lớp..." />
       </div>
-      <label>Danh sách sinh viên</label>
 
-      <table class="table table-striped">
-        <tr>
-          <th>#</th>
-          <th>Mã sinh viên</th>
-          <th>Tên sinh viên</th>
-          <th class="autosize-column"></th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>s</td>
-          <td>s</td>
-          <td class="autosize-column"><button class="btn btn-light"><span class="ti ti-minus text-danger"></span></button></td>
-        </tr>
+      <div class="d-flex align-items-center">
+        <b>Danh sách sinh viên</b>
+        <div class="spacer"></div>
+        <!--<button class="btn btn-light" type="button" title="Import từ file excel"><span class="ti ti-file-import text-success me-2"></span></button>-->
+        <app-upload (onUploadFinished)="excelUploaded($event)"></app-upload>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã sinh viên</th>
+            <th>Tên sinh viên</th>
+            <th class="autosize-column"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sinhVien of newLopHoc.sinhViens; let idx=index;">
+            <td>{{idx}}</td>
+            <td>{{sinhVien.maSinhVien}}</td>
+            <td>{{sinhVien.hoVaTen}}</td>  
+            <td class="autosize-column"><button class="btn btn-light"><span class="ti ti-minus text-danger"></span></button></td>
+          </tr>
+        </tbody>
       </table>
+    </div>
+
+    <div class="col-md-7">
+      <h4>Bài tập</h4>
+      <div *ngFor="let baiTap of newLopHoc.baiTaps">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="d-flex">
+              <h4><b>Câu {{baiTap.stt}}</b></h4>
+              <div class="spacer"></div>
+              <button class="btn btn-light" (click)="removeBaiTap(baiTap.localId)"><span class="ti ti-x text-danger" title="Xóa"></span></button>
+            </div>
+            <label>Tiêu đề</label>
+            <input [(ngModel)]="baiTap.tieuDe" name="tieuDe" class="form-control mb-2" placeholder="Nhập tiêu đề..."/>
+
+            <label>Nội dung</label>
+            <textarea [(ngModel)]="baiTap.noiDung" name="noiDung" class="form-control" placeholder="Nhập nội dung..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 w-100 border-dashed d-flex flex-column align-items-center hand" (click)="addBaiTap()">
+        <div>
+          <span class="ti ti-plus"></span>
+          Thêm bài tập
+        </div>
+      </div>
     </div>
   </div>
 </form>

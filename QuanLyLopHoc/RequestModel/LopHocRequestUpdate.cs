@@ -6,5 +6,7 @@ namespace QuanLyLopHoc.RequestModel
     {
         public string TenLopHoc { get; set; }
         public List<int> SinhVienIds { get; set; } = new List<int>();
+
+        public List<BaiTapRequestUpdate> BaiTaps { get; set; } = new List<BaiTapRequestUpdate>();
     }
 }

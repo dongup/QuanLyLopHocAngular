@@ -1,6 +1,5 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "QuanLyLopHoc": {
@@ -24,17 +23,20 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/styles.css",
               "src/assets/css/toastr.css",
-              "src/assets/css/tabler-icons.min.css"
-            ],
-            "scripts": [
-              "src/assets/js/toastr.js",
-              "src/assets/js/jquery_3.6.0.js"
+              "src/assets/css/tabler-icons.min.css",
+              "node_modules/ngx-toastr/toastr.css" // try adding '../' if you're using angular cli before 6
             ]
           },
           "configurations": {
@@ -134,5 +136,7 @@
       }
     }
   },
-  "defaultProject": "QuanLyLopHoc"
+  "cli": {
+    "analytics": "cc447551-541b-45b1-974a-525a023b78ee"
+  }
 }

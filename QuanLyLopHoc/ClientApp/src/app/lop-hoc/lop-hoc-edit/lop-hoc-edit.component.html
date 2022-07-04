@@ -1,0 +1,68 @@
+<a [routerLink]="['../../']" class="btn btn-light mb-2" ><span class="ti ti-arrow-back me-2 text-primary"></span>Về trang trước</a>
+<form (ngSubmit)="submitEdit()">
+  <h1 id="tableLabel">Sửa lớp học</h1>
+  <div class="d-flex">
+    <p>Điền thông tin lớp học vào bên dưới</p>
+    <div class="spacer"></div>
+    <button class="btn btn-light" type="submit"><span class="ti ti-plus me-2 text-success"></span>Sửa lớp học</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group mb-2">
+        <label for="tenLopHoc" class="form-label">Tên lớp học</label>
+        <input id="tenLopHoc" required name="tenLopHoc" class="form-control" [(ngModel)]="lopHoc.tenLopHoc" placeholder="Nhập tên lớp..." />
+      </div>
+
+      <div class="d-flex align-items-center">
+        <b>Danh sách sinh viên</b>
+        <div class="spacer"></div>
+        <!--<button class="btn btn-light" type="button" title="Import từ file excel"><span class="ti ti-file-import text-success me-2"></span></button>-->
+        <app-upload (onUploadFinished)="excelUploaded($event)"></app-upload>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã sinh viên</th>
+            <th>Tên sinh viên</th>
+            <th class="autosize-column"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sinhVien of lopHoc.sinhViens; let idx=index;">
+            <td>
+              {{idx}}
+            </td>
+            <td>{{sinhVien.maSinhVien}}</td>
+            <td>{{sinhVien.hoVaTen}}</td>
+            <td class="autosize-column"><button class="btn btn-light"><span class="ti ti-minus text-danger"></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-7">
+      <h4>Bài tập</h4>
+      <div *ngFor="let baiTap of lopHoc.baiTaps">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="d-flex">
+              <h4><b>Câu {{baiTap.stt}}</b></h4>
+              <div class="spacer"></div>
+              <button class="btn btn-light" (click)="removeBaiTap(baiTap.localId)"><span class="ti ti-x text-danger" title="Xóa"></span></button>
+            </div>
+            <label>Nội dung</label>
+            <textarea [(ngModel)]="baiTap.noiDung" name="{{baiTap.localId  + 'noiDung'}}" class="form-control" placeholder="Nhập nội dung..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 w-100 border-dashed d-flex flex-column align-items-center hand" (click)="addBaiTap()">
+        <div>
+          <span class="ti ti-plus"></span>
+          Thêm bài tập
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

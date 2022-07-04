@@ -1,0 +1,16 @@
+<div class="page-wrapper">
+  <div class="card-center box-shadow">
+    <div class="card-body">
+      <label class="text-center">Mã sinh viên</label>
+      <input [(ngModel)]="maSinhVien" class="form-control" placeholder="Nhập mã sinh viên..." />
+
+      <label class="text-center">Lớp học</label>
+      <select class="form-control" [(ngModel)]="lopHocId">
+        <option value="0">---Chọn lớp học---</option>
+        <option *ngFor="let lopHoc of lopHocs" value="{{lopHoc.id}}">{{lopHoc.tenLopHoc}}</option>
+      </select>
+
+      <a (click)="nopBai()" class="btn btn-block w-100 mt-2 btn-primary">Tiếp theo</a>
+    </div>
+  </div>
+</div>

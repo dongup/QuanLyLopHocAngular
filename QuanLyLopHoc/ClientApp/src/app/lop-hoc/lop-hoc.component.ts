@@ -2,18 +2,21 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ResponseModel } from '../models/response-model'
 import { Route, Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { LopHoc } from '../models/interfaces';
 
 @Component({
   selector: 'app-lop-hoc',
   templateUrl: './lop-hoc.component.html'
 })
 export class LopHocComponent {
-  public forecasts: LopHoc[] = [];
+  public lopHocs: LopHoc[] = [];
 
   constructor(private http: HttpClient
     , @Inject('BASE_URL') private baseUrl: string
     , private router: Router
-    , private route: ActivatedRoute)
+    , private route: ActivatedRoute
+    , private toastr: ToastrService)
   {
     this.loadData();
   }
@@ -22,7 +25,7 @@ export class LopHocComponent {
     this.http.get<ResponseModel<LopHoc[]>>(this.baseUrl + 'lophoc')
       .subscribe(rspns =>
         {
-          this.forecasts = rspns.result;
+          this.lopHocs = rspns.result;
         }
         , error => console.error(error));
   }
@@ -35,17 +38,15 @@ export class LopHocComponent {
     if (!window.confirm(`Xóa lớp học ${lopHoc.tenLopHoc}?`)) return;
 
     this.http.delete(this.baseUrl + 'lophoc/' + lopHoc.id)
-    .subscribe(rspns => {
-      //this.forecasts = rspns.result;
-      
-    }
+      .subscribe(rspns => {
+        let res = rspns as ResponseModel<Object>;
+        if (res.isSucceed) {
+          this.toastr.success(res.result as string);
+          this.loadData();
+        }
+      }
       , error => console.error(error));
   }
 
 }
 
-export interface LopHoc {
-  tenLopHoc: string;
-  id: number;
-  sinhViens: []
-}

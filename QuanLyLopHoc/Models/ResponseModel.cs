@@ -17,6 +17,7 @@ namespace QuanLyLopHoc.Models
         {
             IsSucceed = true;
             this.Result = Result;
+            Message = "Thành công";
             return this;
         }
 

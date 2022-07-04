@@ -48,6 +48,12 @@ namespace QuanLyLopHoc.Utils
             return ConvertDataTable<T>(data);
         }
 
+        public static List<T> FromExcel<T>(this DbContext context, string filePath)
+        {
+            DataTable data = ExcelHelper.ReadData(filePath);
+            return ConvertDataTable<T>(data);
+        }
+
         private static List<T> ConvertDataTable<T>(DataTable dt)
         {
             List<T> data = new List<T>();
@@ -68,7 +74,10 @@ namespace QuanLyLopHoc.Utils
             {
                 foreach (PropertyInfo pro in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
+                    string collumnName = column.ColumnName?.RemoveUnicode()?.ToTitleCase()?.RemoveSpace();
+                    Console.WriteLine(collumnName);
+
+                    if (pro.Name == collumnName)
                         pro.SetValue(obj, dr[column.ColumnName] is DBNull? null : dr[column.ColumnName], null);
                     else
                         continue;

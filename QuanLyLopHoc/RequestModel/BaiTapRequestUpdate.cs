@@ -8,7 +8,7 @@ namespace QuanLyLopHoc.RequestModel
         public string TieuDe { get; set; }
         public string NoiDung { get; set; }
         public int STT { get; set; }
-
+        public int Diem { get; set; }
         public string TraLoi { get; set; }
 
     }

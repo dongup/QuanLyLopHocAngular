@@ -31,6 +31,7 @@ namespace QuanLyLopHoc.Controllers
                     x.HoVaTen,
                     x.MaSinhVien,
                     x.Id,
+                    x.TongDiem,
                     BaiTaps = x.TraLois.Select(a => new
                     {
                         IdTraLoi = a.Id,
@@ -39,6 +40,8 @@ namespace QuanLyLopHoc.Controllers
                         a.BaiTap.STT,
                         traLoi = a.CauTraLoi,
                         a.BaiTap.TieuDe,
+                        Diem = a.BaiTap.DiemSo,
+                        DiemCham = 0
                     })
                 });
 

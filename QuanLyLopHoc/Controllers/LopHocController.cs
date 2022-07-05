@@ -57,6 +57,7 @@ namespace QuanLyLopHoc.Controllers
                         a.Id,
                         a.NoiDung,
                         a.TieuDe,
+                        Diem = a.DiemSo,
                         Stt = a.STT
                     })
                 })
@@ -90,39 +91,54 @@ namespace QuanLyLopHoc.Controllers
         }
 
         // PUT api/LopHoc/5
-        [HttpPut("{id}")]
-        public ResponseModel Put(int id, LopHocRequestUpdate value)
+        [HttpPut("{idLopHoc}")]
+        public ResponseModel Put(int idLopHoc, LopHocRequestUpdate value)
         {
             var savedItem = _context.LopHocs
-                .Include(x => x.BaiTaps)
-                .Where(x => x.Id == id)
+                .Include(x => x.SinhViens)
+                .Where(x => x.Id == idLopHoc)
                 .FirstOrDefault();
             value.CopyTo(savedItem);
-            savedItem.Id = id;
-            var savedBaiTaps = _context.BaiTaps
-                .Where(x => value.BaiTaps.Select(a => a.Id).Contains(x.Id))
-                .ToList();
-            savedBaiTaps.AddRange(value.BaiTaps
-                      .Where(x => x.Id == 0)
-                      .Select(x => new BaiTapEntity()
-                      {
-                         Id = 0,
-                         NoiDung = x.NoiDung,
-                         TieuDe = x.TieuDe,
-                         STT = x.STT,
-                      }).ToList());
-            savedItem.BaiTaps = savedBaiTaps;
+            savedItem.Id = idLopHoc;
 
+            foreach(var baiTap in value.BaiTaps)
+            {
+                var savedBaiTap = _context.BaiTaps.Where(x => x.Id == baiTap.Id).FirstOrDefault();
+                if(savedBaiTap == null)
+                {
+                    var newBaiTap = new BaiTapEntity()
+                    {
+                        Id = 0,
+                        NoiDung = baiTap.NoiDung,
+                        TieuDe = baiTap.TieuDe,
+                        STT = baiTap.STT,
+                        DiemSo = baiTap.Diem,
+                        IdLopHoc = idLopHoc
+                    };
+                    _context.BaiTaps.Add(newBaiTap);
+                }
+
+                if(savedBaiTap != null)
+                {
+                    savedBaiTap.NoiDung = baiTap.NoiDung;
+                    savedBaiTap.STT = baiTap.STT;
+                    savedBaiTap.DiemSo = baiTap.Diem;
+                }
+            }
+
+            //Tìm sinh viên đã cũ
             var savedSinhViens = _context.SinhViens
                 .Where(x => value.SinhViens.Select(a => a.Id).Contains(x.Id))
                 .ToList();
+
+            //Tìm sinh viên mới
             savedSinhViens.AddRange(value.SinhViens
                       .Where(x => x.Id == 0)
                       .Select(x => new SinhVienEntity()
                       {
                           Id = 0,
                           MaSinhVien = x.MaSinhVien,
-                          HoVaTen = x.HoVaTen
+                          HoVaTen = x.HoVaTen,
                       }).ToList());
             savedItem.SinhViens = savedSinhViens;
 

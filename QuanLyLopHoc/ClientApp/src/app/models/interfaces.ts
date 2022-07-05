@@ -13,7 +13,9 @@ export interface BaiTap {
   stt: number,
   traLoi?: string,
   localId: string,
-  coppied?: boolean
+  coppied?: boolean,
+  diem?: number,
+  diemCham?: number,
 }
 
 export interface SinhVienTraLoi {
@@ -22,7 +24,9 @@ export interface SinhVienTraLoi {
   hoVaTen: string,
   idLopHoc: number,
   idBaiTap: number,
-  traLoi: string
+  traLoi: string,
+  diem?: number,
+  diemBaiTap?: number
 }
 
 export interface SinhVien {
@@ -30,5 +34,6 @@ export interface SinhVien {
   maSinhVien: string,
   hoVaTen: string,
   idLopHoc: number,
+  tongDiem?: number,
   baiTaps: BaiTap[]
 }

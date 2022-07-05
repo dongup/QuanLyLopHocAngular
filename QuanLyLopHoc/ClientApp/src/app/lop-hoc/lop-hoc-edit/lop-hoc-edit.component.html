@@ -1,4 +1,9 @@
-<a [routerLink]="['../../']" class="btn btn-light mb-2" ><span class="ti ti-arrow-back me-2 text-primary"></span>Về trang trước</a>
+<div class="d-flex">
+  <a [routerLink]="['../../']" class="btn btn-light mb-2"><span class="ti ti-arrow-back me-2 text-primary"></span>Về trang trước</a>
+  <div class="spacer"></div>
+  <button class="btn btn-light" (click)="loadDetail()" type="submit"><span class="ti ti-refresh me-2 text-info"></span>Tải lại dữ liệu</button>
+</div>
+
 <form (ngSubmit)="submitEdit()">
   <h1 id="tableLabel">Sửa lớp học</h1>
   <div class="d-flex">
@@ -45,14 +50,19 @@
     <div class="col-md-7">
       <h4>Bài tập</h4>
       <div *ngFor="let baiTap of lopHoc.baiTaps">
-        <div class="card mb-2">
-          <div class="card-body">
-            <div class="d-flex">
-              <h4><b>Câu {{baiTap.stt}}</b></h4>
+        <div class=" mb-2">
+          <div class="">
+            <div class="d-flex align-items-center">
+              <h5 class="m-0"><b>Câu {{baiTap.stt}} - </b></h5>
+
+              <div class="input-group ms-2 align-items-center">
+                <input class="form-control wp-50 py-0" name="{{baiTap.localId + 'diem'}}" [(ngModel)]="baiTap.diem" />
+                <span class="input-group-text  py-0" id="basic-addon1">điểm</span>
+              </div>
+
               <div class="spacer"></div>
               <button class="btn btn-light" (click)="removeBaiTap(baiTap.localId)"><span class="ti ti-x text-danger" title="Xóa"></span></button>
             </div>
-            <label>Nội dung</label>
             <textarea [(ngModel)]="baiTap.noiDung" name="{{baiTap.localId  + 'noiDung'}}" class="form-control" placeholder="Nhập nội dung..."></textarea>
           </div>
         </div>

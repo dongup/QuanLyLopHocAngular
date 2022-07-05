@@ -41,7 +41,8 @@ export class LopHocEditComponent implements OnInit {
       tieuDe: '',
       stt: this.lopHoc.baiTaps.length + 1,
       localId: uuidv4(),
-      id: 0
+      id: 0,
+      diem: 0
     })
     this.reOrder();
     

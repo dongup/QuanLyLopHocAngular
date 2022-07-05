@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LopHoc, SinhVien } from '../../models/interfaces';
 import { ResponseModel } from '../../models/response-model'
@@ -26,7 +26,6 @@ export class LopHocAddComponent implements OnInit {
     , @Inject('BASE_URL') private baseUrl: string
     , private router: Router
     , private route: ActivatedRoute
-    , private formBuilder: UntypedFormBuilder
     , private toastr: ToastrService) {
    
   }

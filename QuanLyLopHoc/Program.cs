@@ -42,7 +42,7 @@ services.AddSwaggerGen(c =>
     //c.IncludeXmlComments(xmlDocPath);
 });
 services.AddControllers();
-services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("iot")));
+services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("default")));
 
 services.AddCors(options =>
 {

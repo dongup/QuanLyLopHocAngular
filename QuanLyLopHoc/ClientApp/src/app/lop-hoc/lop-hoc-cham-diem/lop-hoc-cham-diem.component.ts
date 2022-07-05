@@ -28,7 +28,13 @@ export class LopHocChamDiemComponent implements OnInit {
       baiTaps: []
   }
 
-  editorOptions = { theme: 'vs-light', language: 'c', minimap: false };
+  editorOptions = {
+    theme: 'vs-light',
+    language: 'c',
+    minimap: {
+      enabled: false
+    }
+  };
 
   constructor(private router: Router
     , private route: ActivatedRoute
@@ -45,6 +51,16 @@ export class LopHocChamDiemComponent implements OnInit {
 
 
     //document.getElementsByTagName('iframe')[0].appendChild(script)
+  }
+
+  sumDiem() {
+    let diemArr = this.slctedSinhVien.baiTaps.map(x => x.diemCham ?? 0);
+    this.slctedSinhVien.tongDiem = diemArr.reduce((a, b) => a + b, 0);
+  }
+
+  choDiemToiDa(baiTap: BaiTap) {
+    baiTap.diemCham = baiTap.diem;
+    this.sumDiem();
   }
 
   copyCode(baiTap: BaiTap) {

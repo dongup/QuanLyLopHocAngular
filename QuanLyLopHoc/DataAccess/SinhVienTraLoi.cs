@@ -18,6 +18,8 @@ namespace QuanLyLopHoc.DataAccess
 
         public string CauTraLoi { get; set; }
 
+        public int Diem { get; set; }
+
         [ForeignKey(nameof(IdSinhVien))]
         public virtual SinhVienEntity SinhVien { get; set; }
 

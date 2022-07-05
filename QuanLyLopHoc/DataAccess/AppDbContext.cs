@@ -10,7 +10,6 @@ namespace QuanLyLopHoc.DataAccess
     {
         public DbSet<LopHocEntity> LopHocs { get; set; }
         public DbSet<SinhVienEntity> SinhViens { get; set; }
-        public DbSet<LopHocSinhVienEntity> LopHocSinhViens { get; set; }
         public DbSet<BaiTapEntity> BaiTaps { get; set; }
         public DbSet<SinhVienTraLoiEntity> SinhVienTraLois { get; set; }
 

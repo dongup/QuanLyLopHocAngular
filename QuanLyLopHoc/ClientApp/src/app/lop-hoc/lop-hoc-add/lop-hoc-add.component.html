@@ -43,18 +43,18 @@
     <div class="col-md-7">
       <h4>Bài tập</h4>
       <div *ngFor="let baiTap of newLopHoc.baiTaps">
-        <div class="card mb-2">
-          <div class="card-body">
-            <div class="d-flex">
-              <h4><b>Câu {{baiTap.stt}}</b></h4>
+        <div class="mb-2">
+          <div class="">
+            <div class="d-flex align-items-center">
+              <h5 class="m-0"><b>Câu {{baiTap.stt}} - </b></h5>
+              <div class="input-group ms-2 align-items-center">
+                <input class="form-control wp-50 py-0" name="{{baiTap.localId + 'diem'}}" [(ngModel)]="baiTap.diem" />
+                <span class="input-group-text  py-0" id="basic-addon1">điểm</span>
+              </div>
               <div class="spacer"></div>
               <button class="btn btn-light" (click)="removeBaiTap(baiTap.localId)"><span class="ti ti-x text-danger" title="Xóa"></span></button>
             </div>
-            <label>Tiêu đề</label>
-            <input [(ngModel)]="baiTap.tieuDe" name="tieuDe" class="form-control mb-2" placeholder="Nhập tiêu đề..."/>
-
-            <label>Nội dung</label>
-            <textarea [(ngModel)]="baiTap.noiDung" name="noiDung" class="form-control" placeholder="Nhập nội dung..."></textarea>
+            <textarea [(ngModel)]="baiTap.noiDung" name="{{baiTap.localId + 'noiDung'}}" class="form-control" placeholder="Nhập nội dung..."></textarea>
           </div>
         </div>
       </div>

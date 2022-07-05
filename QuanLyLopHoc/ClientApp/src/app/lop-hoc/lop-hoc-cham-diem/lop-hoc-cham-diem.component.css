@@ -50,3 +50,26 @@ a {
   overflow: hidden;
   min-height: 0;
 }
+
+.div-list-sinh-vien {
+  max-height: calc(100vh - 215px);
+  height: calc(100vh - 215px);
+  overflow-y: auto;
+}
+
+.div-exec-code {
+  max-height: calc(100vh - 215px);
+  height: calc(100vh - 215px);
+  overflow-y: hidden;
+  min-width: 400px;
+  max-width: 400px;
+  position: relative;
+  border-left: 1px solid gray;
+}
+
+
+.div-content-scroll {
+  max-height: calc(100vh - 280px);
+  height: calc(100vh - 280px);
+  overflow-y: auto
+}

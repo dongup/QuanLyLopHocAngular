@@ -81,6 +81,8 @@ namespace QuanLyLopHoc.Controllers
             var savedItem = _context.SinhViens
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
+            if (savedItem == null) return rspns.Failed($"Sinh viên có id {id} không tồn tại!");
+
             savedItem.IsDeleted = true;
             _context.SaveChanges();
             return rspns.Succeed($"Đã xóa sinh viên {savedItem.HoVaTen}!");

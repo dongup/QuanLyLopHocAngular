@@ -77,7 +77,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
         component: UnauthorizeLayoutComponent,
         children: [
           { path: '', component: NopBaiComponent },
-          { path: 'nop-bai/:idLopHoc/:maSinhVien', component: NopBaiDetailComponent },
+          { path: 'nop-bai/:idLopHoc/:maSinhVien/:hoVaTen', component: NopBaiDetailComponent },
         ]
       },
     ])

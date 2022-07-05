@@ -28,7 +28,7 @@ export class LopHocChamDiemComponent implements OnInit {
       baiTaps: []
   }
 
-  editorOptions = { theme: 'vs-dark', language: 'c' };
+  editorOptions = { theme: 'vs-light', language: 'c', minimap: false };
 
   constructor(private router: Router
     , private route: ActivatedRoute
@@ -41,10 +41,18 @@ export class LopHocChamDiemComponent implements OnInit {
     this.idLopHoc = Number(routeParams.get("idLopHoc"));
 
     this.loadDataLopHoc();
+    this.loadDataSinhVien();
+
+
+    //document.getElementsByTagName('iframe')[0].appendChild(script)
   }
 
+  copyCode(baiTap: BaiTap) {
+    navigator.clipboard.writeText(baiTap.traLoi ?? "");
+    baiTap.coppied = true;
+  }
 
-  onClickBaiTap(idSinhVien: number) {
+  onSelectSinhVien(idSinhVien: number) {
     let clickedSinhVien = this.sinhViens.find(x => x.id == idSinhVien);
     if (clickedSinhVien != undefined) {
       this.slctedSinhVien = clickedSinhVien;
@@ -52,9 +60,14 @@ export class LopHocChamDiemComponent implements OnInit {
   }
 
   loadDataSinhVien() {
-    this.http.get<ResponseModel<LopHoc>>(`${this.baseUrl}lopHoc/${this.idLopHoc}`)
+    this.http.get<ResponseModel<SinhVien[]>>(`${this.baseUrl}nop-bai/${this.idLopHoc}`)
       .subscribe(rspns => {
-        this.lopHoc = rspns.result;
+        this.sinhViens = rspns.result;
+        let findSv = this.sinhViens.find(x => x.id == this.slctedSinhVien.id);
+        if (findSv != undefined) {
+          this.slctedSinhVien = findSv;
+        }
+
       }
         , error => console.error(error));
   }

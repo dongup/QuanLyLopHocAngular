@@ -9,5 +9,7 @@ namespace QuanLyLopHoc.RequestModel
         public string NoiDung { get; set; }
         public int STT { get; set; }
 
+        public string TraLoi { get; set; }
+
     }
 }

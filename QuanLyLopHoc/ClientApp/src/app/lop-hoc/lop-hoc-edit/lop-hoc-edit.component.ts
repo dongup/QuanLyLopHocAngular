@@ -52,6 +52,22 @@ export class LopHocEditComponent implements OnInit {
     this.reOrder();
   }
 
+  removeSinhVien(idSinhVien: number) {
+    this.http.delete(`${this.baseUrl}sinhVien/${idSinhVien}`)
+      .subscribe((content) => {
+        let res = content as ResponseModel<string>;
+        if (res.isSucceed) {
+          this.toastr.success(res.result);
+          this.lopHoc.sinhViens = this.lopHoc.sinhViens.filter(x => x.id != idSinhVien);
+        }
+
+        if (!res.isSucceed) {
+          this.toastr.error(res.message);
+        }
+      }
+        , error => console.error(error));
+  }
+
   reOrder() {
     this.lopHoc.baiTaps.forEach((x, idx) => x.stt = idx + 1);
   }
@@ -59,13 +75,13 @@ export class LopHocEditComponent implements OnInit {
   submitEdit() {
     this.http.put(`${this.baseUrl}lophoc/${this.idLopHoc}`, this.lopHoc)
       .subscribe((content) => {
-        let res = content as ResponseModel<string>;
-        if (res.isSucceed) {
-          this.toastr.success(res.message);
+        let rspns = content as ResponseModel<string>;
+        if (rspns.isSucceed) {
+          this.toastr.success(rspns.result);
         }
 
-        if (!res.isSucceed) {
-          this.toastr.error(res.message);
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
         }
       }
       , error => console.error(error));

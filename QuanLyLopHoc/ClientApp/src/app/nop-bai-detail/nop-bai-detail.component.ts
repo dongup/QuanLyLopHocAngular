@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaiTap } from '../models/interfaces';
+import { ToastrService } from 'ngx-toastr';
+import { BaiTap, SinhVienTraLoi } from '../models/interfaces';
 import { ResponseModel } from '../models/response-model';
 
 @Component({
@@ -11,7 +12,9 @@ import { ResponseModel } from '../models/response-model';
 })
 export class NopBaiDetailComponent implements OnInit {
   maSinhVien: string = '';
+  hoVaTen: string = '';
   idLopHoc: number = 0;
+
   baiTaps: BaiTap[] = [];
   slctedBaiTap: BaiTap = {
     id: 0,
@@ -34,6 +37,7 @@ export class NopBaiDetailComponent implements OnInit {
   constructor(private router: Router
     , private route: ActivatedRoute
     , private http: HttpClient
+    , private toastr: ToastrService
     , @Inject('BASE_URL') private baseUrl: string) {
   }
 
@@ -41,19 +45,33 @@ export class NopBaiDetailComponent implements OnInit {
     let routeParams = this.route.snapshot.paramMap;
     this.maSinhVien = String(routeParams.get("maSinhVien"));
     this.idLopHoc = Number(routeParams.get("idLopHoc"));
+    this.hoVaTen = String(routeParams.get("hoVaTen"));
     this.loadData();
   }
 
   nopBai() {
-    this.http.post(`${this.baseUrl}executeCode`, {
+    let request: any = {
       maSinhVien: this.maSinhVien,
-      tenSinhVien: 'Nguyễn Văn Đông',
+      tenSinhVien: this.hoVaTen,
       idLopHoc: this.idLopHoc,
-      idBaiTap: this.slctedBaiTap.id,
-      traLoi: this.slctedBaiTap.traLoi
-    })
+      traLois: this.baiTaps.map(x => {
+        return {
+          idBaiTap: x.id,
+          traLoi: x.traLoi
+        }
+      })
+    }
+
+    this.http.post(`${this.baseUrl}nop-bai`, request)
       .subscribe(content => {
         let rspns = content as ResponseModel<string>;
+        if (rspns.isSucceed) {
+          this.toastr.success(rspns.result);
+        }
+
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
+        }
       }
         , error => console.error(error));
   }
@@ -67,9 +85,16 @@ export class NopBaiDetailComponent implements OnInit {
       traLoi: this.slctedBaiTap.traLoi
     })
       .subscribe(content => {
-        let rspns = content as ResponseModel<string>;
+        let res = content as ResponseModel<string>;
+        if (res.isSucceed) {
+          this.toastr.success(res.result);
+        }
+
+        if (!res.isSucceed) {
+          this.toastr.error(res.message);
+        }
       }
-      , error => console.error(error));
+        , error => this.toastr.error(error.message));
   }
 
   onClickBaiTap(idBaiTap: number) {
@@ -82,10 +107,17 @@ export class NopBaiDetailComponent implements OnInit {
   loadData() {
     this.http.get<ResponseModel<BaiTap[]>>(`${this.baseUrl}baiTap/by-lop-hoc/${this.idLopHoc}`)
       .subscribe(rspns => {
-        this.baiTaps = rspns.result;
-        this.slctedBaiTap = this.baiTaps[0];
+        if (rspns.isSucceed) {
+          this.baiTaps = rspns.result;
+          this.slctedBaiTap = this.baiTaps[0];
+        }
+
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
+        }
       }
         , error => console.error(error));
   }
+
 }
 

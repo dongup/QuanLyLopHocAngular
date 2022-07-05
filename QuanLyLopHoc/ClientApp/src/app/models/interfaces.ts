@@ -7,11 +7,22 @@ export interface LopHoc {
 
 export interface BaiTap {
   id: number,
+  idTraLoi?: number,
   tieuDe: string,
   noiDung: string,
   stt: number,
   traLoi?: string,
   localId: string,
+  coppied?: boolean
+}
+
+export interface SinhVienTraLoi {
+  id: number,
+  maSinhVien: string,
+  hoVaTen: string,
+  idLopHoc: number,
+  idBaiTap: number,
+  traLoi: string
 }
 
 export interface SinhVien {

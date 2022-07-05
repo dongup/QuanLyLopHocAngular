@@ -46,16 +46,18 @@ namespace QuanLyLopHoc.Controllers
                 {
                     x.Id,
                     x.TenLopHoc,
-                    SinhViens = x.SinhViens.Select(x => new
+                    SinhViens = x.SinhViens.Select(a => new
                     {
-                        x.HoVaTen,
-                        x.MaSinhVien
+                        a.Id,
+                        a.HoVaTen,
+                        a.MaSinhVien
                     }),
-                    BaiTaps = x.BaiTaps.Select(x => new
+                    BaiTaps = x.BaiTaps.Select(a => new
                     {
-                        x.NoiDung,
-                        x.TieuDe,
-                        Stt = x.STT
+                        a.Id,
+                        a.NoiDung,
+                        a.TieuDe,
+                        Stt = a.STT
                     })
                 })
                 .FirstOrDefault();
@@ -97,10 +99,10 @@ namespace QuanLyLopHoc.Controllers
                 .FirstOrDefault();
             value.CopyTo(savedItem);
             savedItem.Id = id;
-            var newBaiTaps = _context.BaiTaps
+            var savedBaiTaps = _context.BaiTaps
                 .Where(x => value.BaiTaps.Select(a => a.Id).Contains(x.Id))
                 .ToList();
-            newBaiTaps.AddRange(value.BaiTaps
+            savedBaiTaps.AddRange(value.BaiTaps
                       .Where(x => x.Id == 0)
                       .Select(x => new BaiTapEntity()
                       {
@@ -109,10 +111,23 @@ namespace QuanLyLopHoc.Controllers
                          TieuDe = x.TieuDe,
                          STT = x.STT,
                       }).ToList());
-            savedItem.BaiTaps = newBaiTaps;
+            savedItem.BaiTaps = savedBaiTaps;
+
+            var savedSinhViens = _context.SinhViens
+                .Where(x => value.SinhViens.Select(a => a.Id).Contains(x.Id))
+                .ToList();
+            savedSinhViens.AddRange(value.SinhViens
+                      .Where(x => x.Id == 0)
+                      .Select(x => new SinhVienEntity()
+                      {
+                          Id = 0,
+                          MaSinhVien = x.MaSinhVien,
+                          HoVaTen = x.HoVaTen
+                      }).ToList());
+            savedItem.SinhViens = savedSinhViens;
 
             _context.SaveChanges();
-            return rspns.Succeed($"Đã cập nhập lớp học {id}!");
+            return rspns.Succeed($"Đã cập nhập lớp học {savedItem.TenLopHoc}!");
         }
 
         // DELETE api/LopHoc/5

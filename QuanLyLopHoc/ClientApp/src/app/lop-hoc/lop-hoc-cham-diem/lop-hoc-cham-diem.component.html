@@ -1,44 +1,87 @@
+<div class="d-flex">
+  <a [routerLink]="['../']" class="btn btn-light mb-2"><span class="ti ti-arrow-back me-2 text-primary"></span>Về trang trước</a>
+  <div class="spacer"></div>
+  <button class="btn btn-light" (click)="loadDataSinhVien()"><span class="ti ti-refresh me-2 text-success"></span>Tải lại dữ liệu</button>
+</div>
+
 <h3 id="tableLabel">Chấm điểm</h3>
 
 <div class="d-flex">
   <p>{{lopHoc.tenLopHoc}}</p>
   <div class="spacer"></div>
-  <button class="btn btn-light" ><span class="ti ti-plus me-2 text-success"></span>Lưu điểm số</button>
+  <button class="btn btn-light"><span class="ti ti-plus me-2 text-success"></span>Lưu điểm số</button>
 </div>
 
 
 <div class="d-flex">
-  <ul class="nav d-flex flex-column h-100 border-right" style="width: 100px">
-    <li *ngFor="let baiTap of baiTaps" class="nav-item hand {{slctedBaiTap?.id == baiTap?.id? 'active' : ''}}"
-        (click)="onClickBaiTap(baiTap.id)">
-      <span class="nav-link">Câu {{baiTap.stt}}</span>
+  <ul class="nav d-flex flex-column h-100 border-right">
+    <li *ngFor="let sinhVien of sinhViens" style="width: 220px; min-width: 220px"
+        class="nav-item hand {{slctedSinhVien.id == sinhVien.id? 'active' : ''}}"
+        (click)="onSelectSinhVien(sinhVien.id)">
+      <div class="nav-link d-flex flex-column">
+        <b>{{sinhVien.maSinhVien}}</b>
+        <span>{{sinhVien.hoVaTen}}</span>
+      </div>
     </li>
   </ul>
-  <div class="spacer px-4" style="max-height: calc(100vh - 80px); overflow-y: auto">
-    <div *ngIf="slctedBaiTap">
-      <h4>Câu {{slctedBaiTap.stt}}</h4>
-      <div style="white-space: pre-line;">
-        {{slctedBaiTap.noiDung}}
+  <div class="d-flex flex-row spacer">
+    <div class="spacer px-2">
+      <div class="border-bottom mb-2">
+        <div *ngIf="slctedSinhVien.id > 0">
+          <h4>{{slctedSinhVien.hoVaTen}}</h4>
+          <p class="mb-2">{{slctedSinhVien.maSinhVien}}</p>
+        </div>
       </div>
 
-      <div class="d-flex">
-        <h5 class="mt-2">Trả lời</h5>
-        <div class="spacer"></div>
-        <!--<button class="btn btn-light" (click)="runCode()">
-          <span class="ti ti-player-play text-success me-2"></span> Run
-        </button>-->
-      </div>
-      <div style="height: 350px">
-        <!--Editorr-->
-        <ngx-monaco-editor [(ngModel)]="slctedBaiTap.traLoi" [options]="editorOptions" style="height: 100%"></ngx-monaco-editor>
+      <div class="h-100 d-flex flex-row align-items-center" *ngIf="slctedSinhVien.id == 0">
+        <div class="w-100">
+          <h4 class="text-center">Bài làm sinh viên</h4>
+          <p class="mb-2 text-center">Chọn một sinh viên để xem bài làm</p>
+        </div>
       </div>
 
-      <!--<h5>Kết quả</h5>
+      <div *ngIf="slctedSinhVien.id > 0" class="w-100 pb-4" style="max-height: calc(100vh - 280px); overflow-y: auto">
+        <div *ngFor="let baiTap of slctedSinhVien.baiTaps">
+          <h4>Câu {{baiTap.stt}}</h4>
+          <div style="white-space: pre-line;">
+            {{baiTap.noiDung}}
+          </div>
+
+          <div class="d-flex">
+            <h5 class="mt-2">Trả lời</h5>
+            <div class="spacer"></div>
+            <button class="btn btn-light" (click)="copyCode(baiTap)">
+              <span *ngIf="!baiTap.coppied">
+                <span class="ti ti-copy text-info me-2"></span>Copy
+              </span>
+              <span *ngIf="baiTap.coppied">
+                <span class="ti ti-copy text-success me-2"></span>Đã Copy
+              </span>
+            </button>
+          </div>
+          <div style="height: 250px">
+            <!--Editorr-->
+            <ngx-monaco-editor [(ngModel)]="baiTap.traLoi" [options]="editorOptions" style="height: 100%"></ngx-monaco-editor>
+          </div>
+
+          <!--<h5>Kết quả</h5>
       <div style=""></div>-->
-    </div>
+        </div>
 
-    <div *ngIf="!slctedBaiTap">
-      Đang tải...
+        <div *ngIf="!slctedSinhVien">
+          Đang tải...
+        </div>
+      </div>
+    </div>
+    
+    <div style="min-width: 400px; max-width: 400px; overflow-x: auto; position: relative">
+      <div style="position:absolute; top: 0; left: 0; right: 0; height: 55px; z-index: 10; background-color: white">
+        <h5 class="text-center mt-2">Kiểm tra code của sinh viên ở đây</h5>
+      </div>
+      <div style="position:absolute; top: 0; left: 0; height: 95px; width: 60px; z-index: 1; background-color: white"></div>
+      <div style="position:absolute; top: 0; right: 0; height: 95px; width: 60px; z-index: 1; background-color: white"></div>
+      <iframe id="frame-code" src="https://www.programiz.com/c-programming/online-compiler/" height="600" width="400" style="width: 100%">
+      </iframe>
     </div>
   </div>
 </div>

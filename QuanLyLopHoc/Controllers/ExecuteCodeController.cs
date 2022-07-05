@@ -21,12 +21,11 @@ namespace QuanLyLopHoc.Controllers
 
         // POST: api/LopHoc
         [HttpPost]
-        public async Task<ResponseModel> ExecuteCode(SinhVienTraLoiRequestAdd traLoi)
+        public async Task<ResponseModel> ExecuteCode(SinhVienNopBaiRequest traLoi)
         {
             string tenLopHoc = _context.LopHocs.Where(x => x.Id == traLoi.IdLopHoc).Select(x => x.TenLopHoc).FirstOrDefault();
             int sttCauHoi = _context.BaiTaps.Where(x => x.Id == traLoi.IdBaiTap).Select(x => x.STT).FirstOrDefault();
             
-           
 
             string folderPath = Path.Combine(_env.ContentRootPath
                 , "wwwroot"
@@ -35,7 +34,7 @@ namespace QuanLyLopHoc.Controllers
                 , $"{traLoi.MaSinhVien}-{traLoi.TenSinhVien.RemoveUnicode().Replace(" ", "_").Replace('/', '_').Replace('\\', '_')}");
             if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
             string filePath = Path.Combine(folderPath, $"cau_{sttCauHoi}.c");
-            await WriteToFile(filePath, traLoi.TraLoi);
+            //await WriteToFile(filePath, traLoi.TraLoi);
 
             string execFilePath = Path.Combine(folderPath, $"cau_{sttCauHoi}.exe");
 

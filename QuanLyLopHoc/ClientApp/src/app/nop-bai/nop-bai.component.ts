@@ -12,6 +12,7 @@ import { ResponseModel } from '../models/response-model';
 export class NopBaiComponent implements OnInit {
   maSinhVien: string = '';
   lopHocId: number = 0;
+  hoVaTen: string = '';
   lopHocs: LopHoc[] = [];
 
   constructor(private http: HttpClient
@@ -24,7 +25,7 @@ export class NopBaiComponent implements OnInit {
   }
 
   nopBai() {
-    this.router.navigate([`nop-bai/${this.lopHocId}/${this.maSinhVien}`], { relativeTo: this.route });
+    this.router.navigate([`nop-bai/${this.lopHocId}/${this.maSinhVien}/${this.hoVaTen}`], { relativeTo: this.route });
   }
 
   loadDataLopHoc() {

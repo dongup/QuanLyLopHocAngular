@@ -35,10 +35,10 @@ namespace QuanLyLopHoc.DataAccess
         {
             OnModelCreatingPartial(modelBuilder);
 
-            modelBuilder.Entity<LopHocEntity>()
-                .HasMany(x => x.SinhViens)
-                .WithMany(x => x.LopHocs)
-                .UsingEntity<LopHocSinhVienEntity>(x => x.ToTable("LopHocSinhViens"));
+            //modelBuilder.Entity<LopHocEntity>()
+            //    .HasMany(x => x.SinhViens)
+            //    .WithMany(x => x.LopHocs)
+            //    .UsingEntity<LopHocSinhVienEntity>(x => x.ToTable("LopHocSinhViens"));
 
             QueryFilter(modelBuilder);
         }

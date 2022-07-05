@@ -4,7 +4,7 @@
   <div class="d-flex">
     <p>Điền thông tin lớp học vào bên dưới</p>
     <div class="spacer"></div>
-    <button class="btn btn-light" type="submit"><span class="ti ti-plus me-2 text-success"></span>Sửa lớp học</button>
+    <button class="btn btn-light" type="submit"><span class="ti ti-check me-2 text-success"></span>Lưu thay đổi</button>
   </div>
 
   <div class="row">
@@ -36,7 +36,7 @@
             </td>
             <td>{{sinhVien.maSinhVien}}</td>
             <td>{{sinhVien.hoVaTen}}</td>
-            <td class="autosize-column"><button class="btn btn-light"><span class="ti ti-minus text-danger"></span></button></td>
+            <td class="autosize-column"><button class="btn btn-light" type="button" (click)="removeSinhVien(sinhVien.id)"><span class="ti ti-minus text-danger"></span></button></td>
           </tr>
         </tbody>
       </table>

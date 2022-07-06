@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using QuanLyLopHoc.DataAccess;
+using QuanLyLopHoc.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -42,8 +43,6 @@ services.AddSwaggerGen(c =>
     //c.IncludeXmlComments(xmlDocPath);
 });
 services.AddControllers();
-services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("default")));
-
 services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigin",
@@ -55,7 +54,6 @@ services.AddCors(options =>
             builder.AllowAnyOrigin();
         });
 });
-
 services.Configure<FormOptions>(o =>
 {
     o.ValueLengthLimit = int.MaxValue;
@@ -63,8 +61,16 @@ services.Configure<FormOptions>(o =>
     o.MemoryBufferThreshold = int.MaxValue;
 });
 
-var app = builder.Build();
+//=================================Custom service================================
+services.AddScoped<ExcelService>();
 
+//=================================Db context=====================================
+//services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("default")));
+services.AddDbContext<AppDbContext>(op => op.UseSqlServer(configuration.GetConnectionString("iot")));
+
+
+//==================================Middle ware===================================
+var app = builder.Build();
 app.UseCors("AllowAllOrigin");
 
 // Configure the HTTP request pipeline.

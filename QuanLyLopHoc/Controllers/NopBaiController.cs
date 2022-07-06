@@ -18,37 +18,6 @@ namespace QuanLyLopHoc.Controllers
 
         }
 
-
-        // GET: api/LopHoc
-        [HttpGet("{idLopHoc}")]
-        public ResponseModel GetBaiNopTheoLopHoc(int idLopHoc)
-        {
-            var result = _context.LopHocs
-                .Where(x => x.Id == idLopHoc)
-                .SelectMany(x => x.SinhViens)
-                .Select(x => new
-                {
-                    x.HoVaTen,
-                    x.MaSinhVien,
-                    x.Id,
-                    x.TongDiem,
-                    BaiTaps = x.TraLois.Select(a => new
-                    {
-                        IdTraLoi = a.Id,
-                        Id = a.IdBaiTap,
-                        a.BaiTap.NoiDung,
-                        a.BaiTap.STT,
-                        traLoi = a.CauTraLoi,
-                        a.BaiTap.TieuDe,
-                        Diem = a.BaiTap.DiemSo,
-                        DiemCham = 0
-                    })
-                });
-
-            return rspns.Succeed(result);
-        }
-
-
         // POST: api/LopHoc
         [HttpPost]
         public ResponseModel NopBai(SinhVienNopBaiRequest value)

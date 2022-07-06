@@ -15,14 +15,38 @@ namespace QuanLyLopHoc.Utils
 {
     public static class EFCoreExtension
     {
-        public static DataTable GetDataTable(this DbContext context, string sqlQuery,
+        public static DataTable ExecStoreProcedure(this DbContext context, string procName,
                                      params object[] prms)
         {
 
-            sqlQuery += " ";
-            sqlQuery += string.Join(", ", prms.Select(x => $"'{x?.ToString()}'"));
+            procName += " ";
+            procName += string.Join(", ", prms.Select(x => $"'{x?.ToString()}'"));
             //Console.WriteLine($"[{DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}]: Executing query: {sqlQuery}");
 
+            DataTable dataTable = new DataTable();
+            DbConnection connection = context.Database.GetDbConnection();
+            DbProviderFactory dbFactory = DbProviderFactories.GetFactory(connection);
+            using (var cmd = dbFactory.CreateCommand())
+            {
+                cmd.Connection = connection;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = procName;
+                using (DbDataAdapter adapter = dbFactory.CreateDataAdapter())
+                {
+                    adapter.SelectCommand = cmd;
+                    adapter.Fill(dataTable);
+                }
+            }
+            //Console.WriteLine($"[{DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}]: Executed query: {sqlQuery}");
+
+            return dataTable;
+        }
+
+        public static DataTable GetDateTable(this DbContext context, string sqlQuery,
+                                     params object[] prms)
+        {
+            sqlQuery = String.Format(sqlQuery, prms.Select(x => x.ToString()).ToArray());
+            
             DataTable dataTable = new DataTable();
             DbConnection connection = context.Database.GetDbConnection();
             DbProviderFactory dbFactory = DbProviderFactories.GetFactory(connection);
@@ -42,15 +66,17 @@ namespace QuanLyLopHoc.Utils
             return dataTable;
         }
 
+
         public static List<T> FromProcedure<T>(this DbContext context, string procName, params object[] param) where T: class
         {
-            DataTable data = context.GetDataTable(procName, param);
+            DataTable data = context.ExecStoreProcedure(procName, param);
             return ConvertDataTable<T>(data);
         }
 
         public static List<T> FromExcel<T>(this DbContext context, string filePath)
         {
-            DataTable data = ExcelHelper.ReadData(filePath);
+            ExcelService excel = new ExcelService();
+            DataTable data = excel.ReadData(filePath);
             return ConvertDataTable<T>(data);
         }
 

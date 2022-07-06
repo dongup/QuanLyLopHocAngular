@@ -23,7 +23,7 @@ export class LopHocAddComponent implements OnInit {
   dbPath: string = '';
 
   constructor(private http: HttpClient
-    , @Inject('BASE_URL') private baseUrl: string
+    , @Inject('API_URL') private apiUrl: string
     , private router: Router
     , private route: ActivatedRoute
     , private toastr: ToastrService) {
@@ -50,7 +50,7 @@ export class LopHocAddComponent implements OnInit {
 
   excelUploaded(rspns: ResponseModel<UploadFileResult>) {
     let filePath: string = rspns.result.filePath;
-    this.http.get(this.baseUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
+    this.http.get(this.apiUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
       .subscribe((content) => {
         let rspns = content as ResponseModel<SinhVien[]>;
 
@@ -65,7 +65,7 @@ export class LopHocAddComponent implements OnInit {
   }
 
   submitAdd() {
-    this.http.post(this.baseUrl + 'lophoc', this.newLopHoc)
+    this.http.post(this.apiUrl + 'lophoc', this.newLopHoc)
       .subscribe(content => {
         let rspns = content as ResponseModel<string>;
         this.toastr.success(rspns.result);

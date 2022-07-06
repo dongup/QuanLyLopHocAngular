@@ -38,7 +38,7 @@ export class NopBaiDetailComponent implements OnInit {
     , private route: ActivatedRoute
     , private http: HttpClient
     , private toastr: ToastrService
-    , @Inject('BASE_URL') private baseUrl: string) {
+    , @Inject('API_URL') private apiUrl: string) {
   }
 
   ngOnInit(): void {
@@ -62,7 +62,7 @@ export class NopBaiDetailComponent implements OnInit {
       })
     }
 
-    this.http.post(`${this.baseUrl}nop-bai`, request)
+    this.http.post(`${this.apiUrl}nop-bai`, request)
       .subscribe(content => {
         let rspns = content as ResponseModel<string>;
         if (rspns.isSucceed) {
@@ -77,7 +77,7 @@ export class NopBaiDetailComponent implements OnInit {
   }
 
   runCode() {
-    this.http.post(`${this.baseUrl}executeCode`, {
+    this.http.post(`${this.apiUrl}executeCode`, {
       maSinhVien: this.maSinhVien,
       tenSinhVien: 'Nguyễn Văn Đông',
       idLopHoc: this.idLopHoc,
@@ -105,7 +105,7 @@ export class NopBaiDetailComponent implements OnInit {
   }
 
   loadData() {
-    this.http.get<ResponseModel<BaiTap[]>>(`${this.baseUrl}baiTap/by-lop-hoc/${this.idLopHoc}`)
+    this.http.get<ResponseModel<BaiTap[]>>(`${this.apiUrl}baiTap/by-lop-hoc/${this.idLopHoc}`)
       .subscribe(rspns => {
         if (rspns.isSucceed) {
           this.baiTaps = rspns.result;

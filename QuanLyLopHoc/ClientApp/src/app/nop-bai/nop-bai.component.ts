@@ -16,7 +16,7 @@ export class NopBaiComponent implements OnInit {
   lopHocs: LopHoc[] = [];
 
   constructor(private http: HttpClient
-    , @Inject("BASE_URL") private baseUrl: string
+    , @Inject("API_URL") private apiUrl: string
     , private router: Router
     , private route: ActivatedRoute) { }
 
@@ -29,7 +29,7 @@ export class NopBaiComponent implements OnInit {
   }
 
   loadDataLopHoc() {
-    this.http.get<ResponseModel<LopHoc[]>>(`${this.baseUrl}lopHoc`)
+    this.http.get<ResponseModel<LopHoc[]>>(`${this.apiUrl}lopHoc`)
       .subscribe(rspns => {
         this.lopHocs = rspns.result;
       }

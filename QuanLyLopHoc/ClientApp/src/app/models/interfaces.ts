@@ -12,6 +12,7 @@ export interface BaiTap {
   noiDung: string,
   stt: number,
   traLoi?: string,
+  nhanXet?: string,
   localId: string,
   coppied?: boolean,
   diem?: number,
@@ -34,6 +35,7 @@ export interface SinhVien {
   maSinhVien: string,
   hoVaTen: string,
   idLopHoc: number,
+  nhanXet?: string,
   tongDiem?: number,
   baiTaps: BaiTap[]
 }

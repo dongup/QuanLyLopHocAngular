@@ -68,6 +68,11 @@ namespace QuanLyLopHoc.Utils
             return input.Replace(" ", "");
         }
 
+        public static string RemoveForFileName(this string input)
+        {
+            return input.Replace("/", "_").Replace(".", "_").Replace("\\", "_");
+        }
+
         public static string ToLinuxPath(this string str)
         {
             return str.Replace('\\', '/');

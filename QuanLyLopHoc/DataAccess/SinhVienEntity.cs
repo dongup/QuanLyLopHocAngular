@@ -20,6 +20,8 @@ namespace QuanLyLopHoc.DataAccess
 
         public int TongDiem { get; set; }
 
+        public string NhanXet { get; set; }
+
         [ForeignKey(nameof(IdLopHoc))]
         public LopHocEntity LopHoc { get; set; } 
 

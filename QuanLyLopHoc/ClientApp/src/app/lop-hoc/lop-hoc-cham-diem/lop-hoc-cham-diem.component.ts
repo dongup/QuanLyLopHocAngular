@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { __classPrivateFieldGet } from 'tslib';
 import { BaiTap, LopHoc, SinhVien } from '../../models/interfaces';
 import { ResponseModel } from '../../models/response-model';
 
@@ -39,7 +41,9 @@ export class LopHocChamDiemComponent implements OnInit {
   constructor(private router: Router
     , private route: ActivatedRoute
     , private http: HttpClient
-    , @Inject('BASE_URL') private baseUrl: string) {
+    , private toastr: ToastrService
+    , @Inject('API_URL') private apiUrl: string
+    , @Inject('BASE_URL') private baseUrl: string  ) {
   }
 
   ngOnInit(): void {
@@ -48,9 +52,61 @@ export class LopHocChamDiemComponent implements OnInit {
 
     this.loadDataLopHoc();
     this.loadDataSinhVien();
+  }
 
+  downLoadExcel() {
+    this.http.get<ResponseModel<string>>(`${this.apiUrl}cham-diem/excel/${this.idLopHoc}`)
+      .subscribe(content => {
+        let rspns = content as ResponseModel<string>;
+        if (rspns.isSucceed) {
+          //this.toastr.success(rspns.result);
+          window.location.href = this.baseUrl + rspns.result;
+        }
 
-    //document.getElementsByTagName('iframe')[0].appendChild(script)
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
+        }
+      }
+      , error => console.error(error));
+  }
+
+  luuDiemSinhVien() {
+    let request: any = {
+      idSinhVien: this.slctedSinhVien.id,
+      tongDiem: this.slctedSinhVien.tongDiem,
+      nhanXet: this.slctedSinhVien.nhanXet,
+      diemSos: this.slctedSinhVien.baiTaps.map(x => {
+        return {
+          diem: x.diemCham,
+          idBaiTap: x.id,
+          nhanXet: x.nhanXet
+        }
+      }),
+    };
+
+    this.http.post(`${this.apiUrl}cham-diem`, request)
+      .subscribe(content => {
+        let rspns = content as ResponseModel<string>;
+        if (rspns.isSucceed) {
+          this.toastr.success(rspns.result);
+        }
+
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
+        }
+      }
+        , error => console.error(error));
+  }
+
+  onChamDiemSv(baiTap: BaiTap) {
+    let diem = baiTap.diem ?? 0;
+    let diemCham = baiTap.diemCham ?? 0;
+
+    if (diemCham > diem) {
+      baiTap.diemCham = baiTap.diem;
+      this.toastr.error("Điểm chấm không được vượt quá số điểm tối đa!");
+    }
+    this.sumDiem();
   }
 
   sumDiem() {
@@ -76,7 +132,7 @@ export class LopHocChamDiemComponent implements OnInit {
   }
 
   loadDataSinhVien() {
-    this.http.get<ResponseModel<SinhVien[]>>(`${this.baseUrl}nop-bai/${this.idLopHoc}`)
+    this.http.get<ResponseModel<SinhVien[]>>(`${this.apiUrl}cham-diem/${this.idLopHoc}`)
       .subscribe(rspns => {
         this.sinhViens = rspns.result;
         let findSv = this.sinhViens.find(x => x.id == this.slctedSinhVien.id);
@@ -89,7 +145,7 @@ export class LopHocChamDiemComponent implements OnInit {
   }
 
   loadDataLopHoc() {
-    this.http.get<ResponseModel<LopHoc>>(`${this.baseUrl}lopHoc/${this.idLopHoc}`)
+    this.http.get<ResponseModel<LopHoc>>(`${this.apiUrl}lopHoc/${this.idLopHoc}`)
       .subscribe(rspns => {
         this.lopHoc = rspns.result;
       }

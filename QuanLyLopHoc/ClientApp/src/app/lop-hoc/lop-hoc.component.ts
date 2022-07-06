@@ -13,7 +13,7 @@ export class LopHocComponent {
   public lopHocs: LopHoc[] = [];
 
   constructor(private http: HttpClient
-    , @Inject('BASE_URL') private baseUrl: string
+    , @Inject('API_URL') private apiUrl: string
     , private router: Router
     , private route: ActivatedRoute
     , private toastr: ToastrService)
@@ -22,7 +22,7 @@ export class LopHocComponent {
   }
 
   loadData() {
-    this.http.get<ResponseModel<LopHoc[]>>(this.baseUrl + 'lophoc')
+    this.http.get<ResponseModel<LopHoc[]>>(this.apiUrl + 'lophoc')
       .subscribe(rspns =>
         {
           this.lopHocs = rspns.result;
@@ -37,7 +37,7 @@ export class LopHocComponent {
   xoaLopHoc(lopHoc: LopHoc) {
     if (!window.confirm(`Xóa lớp học ${lopHoc.tenLopHoc}?`)) return;
 
-    this.http.delete(this.baseUrl + 'lophoc/' + lopHoc.id)
+    this.http.delete(this.apiUrl + 'lophoc/' + lopHoc.id)
       .subscribe(rspns => {
         let res = rspns as ResponseModel<Object>;
         if (res.isSucceed) {

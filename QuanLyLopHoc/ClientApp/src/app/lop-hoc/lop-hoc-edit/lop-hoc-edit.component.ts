@@ -25,7 +25,7 @@ export class LopHocEditComponent implements OnInit {
     , private route: ActivatedRoute
     , private http: HttpClient
     , private toastr: ToastrService
-    , @Inject('BASE_URL') private baseUrl: string) {
+    , @Inject('API_URL') private apiUrl: string) {
   }
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class LopHocEditComponent implements OnInit {
   }
 
   removeSinhVien(idSinhVien: number) {
-    this.http.delete(`${this.baseUrl}sinhVien/${idSinhVien}`)
+    this.http.delete(`${this.apiUrl}sinhVien/${idSinhVien}`)
       .subscribe((content) => {
         let res = content as ResponseModel<string>;
         if (res.isSucceed) {
@@ -74,7 +74,7 @@ export class LopHocEditComponent implements OnInit {
   }
 
   submitEdit() {
-    this.http.put(`${this.baseUrl}lophoc/${this.idLopHoc}`, this.lopHoc)
+    this.http.put(`${this.apiUrl}lophoc/${this.idLopHoc}`, this.lopHoc)
       .subscribe((content) => {
         let rspns = content as ResponseModel<string>;
         if (rspns.isSucceed) {
@@ -90,7 +90,7 @@ export class LopHocEditComponent implements OnInit {
 
   excelUploaded(rspns: ResponseModel<UploadFileResult>) {
     let filePath: string = rspns.result.filePath;
-    this.http.get(this.baseUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
+    this.http.get(this.apiUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
       .subscribe((content) => {
         let rspns = content as ResponseModel<SinhVien[]>;
 
@@ -101,7 +101,7 @@ export class LopHocEditComponent implements OnInit {
   }
 
   loadDetail() {
-    this.http.get<ResponseModel<LopHoc>>(`${this.baseUrl}lophoc/${this.idLopHoc}`)
+    this.http.get<ResponseModel<LopHoc>>(`${this.apiUrl}lophoc/${this.idLopHoc}`)
       .subscribe(rspns => {
         this.lopHoc = rspns.result;
         this.lopHoc.baiTaps.forEach(x => x.localId = uuidv4());

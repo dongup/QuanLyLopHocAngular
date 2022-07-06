@@ -1,8 +1,4 @@
-﻿using NPOI.HPSF;
-using NPOI.HSSF.UserModel;
-using NPOI.HSSF.Util;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+﻿using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,69 +9,37 @@ using System.Threading.Tasks;
 
 namespace QuanLyLopHoc.Utils
 {
-    public class ExcelHelper
+    public class ExcelService
     {
-        public static XSSFWorkbook hssfworkbook = new XSSFWorkbook();
+        private IWebHostEnvironment _env;
+        public ExcelService(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
-        //private string _rootPath = "";
-
-        public ExcelHelper()
+        public ExcelService()
         {
 
         }
 
-        public ExcelHelper(string templatePath)
+        public string WriteToFile(string fileName, DataTable data)
         {
-            InitializeWorkbook(templatePath);
-        }
+            DateTime now = DateTime.Now;
+            string relativePath = Path.Combine("ExelData", $"{now.Year}", $"{now.Month}", $"{now.Day}", fileName);
 
-        private static void InitializeWorkbook(string path)
-        {
-            //read the template via FileStream, it is suggested to use FileAccess.Read to prevent file lock.
-            //book1.xls is an Excel-2007-generated file, so some new unknown BIFF records are added. 
-            FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-            hssfworkbook = new XSSFWorkbook(file);
-        }
-
-        public void WriteToFile(string path)
-        {
-            //Write the stream data of workbook to the root directory
-            FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
-            file.Close();
-        }
-
-        public static DataTable ReadData(string path)
-        {
-            Console.WriteLine("Reading data");
-            InitializeWorkbook(path);
-
-            var sheet = hssfworkbook.GetSheetAt(0); // zero-based index of your target sheet
-            var dataTable = new DataTable(sheet.SheetName);
-
-            // write the header row
-            var headerRow = sheet.GetRow(0);
-            foreach (var headerCell in headerRow)
+            string filePath = Path.Combine(_env.ContentRootPath, "wwwroot", relativePath);
+            using (var workbook = new XLWorkbook())
             {
-                dataTable.Columns.Add(headerCell?.ToString());
+                var worksheet = workbook.Worksheets.Add(data, "Diem");
+                workbook.SaveAs(filePath);
             }
 
-            Console.WriteLine("Filled header");
+            return relativePath;
+        }
 
-            // write the rest
-            for (int i = 1; i < sheet.PhysicalNumberOfRows; i++)
-            {
-                Console.WriteLine("Writing");
-                var sheetRow = sheet.GetRow(i);
-                var dtRow = dataTable.NewRow();
-                dtRow.ItemArray = dataTable.Columns
-                    .Cast<DataColumn>()
-                    .Select(c => sheetRow?.GetCell(c.Ordinal, MissingCellPolicy.CREATE_NULL_AS_BLANK)?.ToString())
-                    .ToArray();
-                dataTable.Rows.Add(dtRow);
-            }
-
+        public DataTable ReadData(string path)
+        {
+            var dataTable = new DataTable("");
             return dataTable;
         }
     }

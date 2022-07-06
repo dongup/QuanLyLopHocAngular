@@ -23,8 +23,44 @@ a {
     border-bottom: 1px dashed gray;
 }
 
-.mobile-top-bar{
-    display: none !important;
+.shadow-bottom {
+  box-shadow: 0 4px 2px -2px rgba(0,0,0,.15) !important;
+  position: relative;
+  z-index: 1000;
+}
+
+.shadow-top {
+  box-shadow: 0 -4px 2px -2px rgba(0,0,0,.15) !important;
+  position: relative;
+  z-index: 1000;
+}
+
+
+.shadow-right {
+  box-shadow: 0 -4px 2px -2px rgba(0,0,0,.15) !important;
+  position: relative;
+  z-index: 1000;
+}
+
+.shadow-inset {
+  box-shadow: inset 2px 0px 2px 0px rgb(0 0 0 / 15%) !important;
+  position: relative;
+  z-index: 1000;
+}
+
+
+.border-top {
+  border-top: 1px dashed gray;
+}
+
+
+.border-right {
+  border-top: 1px dashed ;
+}
+
+
+.mobile-top-bar {
+  display: none !important steelblue;
 }
 
 .active .nav-link {
@@ -69,7 +105,7 @@ a {
 
 
 .div-content-scroll {
-  max-height: calc(100vh - 280px);
-  height: calc(100vh - 280px);
+  max-height: calc(100vh - 380px);
+  height: calc(100vh - 380px);
   overflow-y: auto
 }

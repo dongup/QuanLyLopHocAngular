@@ -15,7 +15,7 @@ export class UploadComponent implements OnInit {
   //file: HTMLInputElement = new Htm
 
   constructor(private http: HttpClient
-    , @Inject('BASE_URL') private baseUrl: string
+    , @Inject('API_URL') private apiUrl: string
     , private router: Router
     , private route: ActivatedRoute
     , private toastr: ToastrService) { }
@@ -40,7 +40,7 @@ export class UploadComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
     
-    this.http.post(this.baseUrl + 'upload', formData, {reportProgress: true, observe: 'events'})
+    this.http.post(this.apiUrl + 'upload', formData, {reportProgress: true, observe: 'events'})
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.UploadProgress) {

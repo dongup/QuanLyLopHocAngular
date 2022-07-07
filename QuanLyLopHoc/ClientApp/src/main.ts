@@ -5,12 +5,12 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getApiUrl() {
-  return 'http://192.168.0.100:5000/api/';
+  return 'https://192.168.0.100:5000/api/';
 }
 
 export function getBaseUrl() {
   //return 'http://localhost:5000/';
-  return 'http://192.168.0.100:5000/';
+  return 'https://192.168.0.100:5000/';
 }
 
 const providers = [

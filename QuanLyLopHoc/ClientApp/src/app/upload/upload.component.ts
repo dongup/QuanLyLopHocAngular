@@ -1,5 +1,5 @@
 import { HttpClient, HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ResponseModel } from '../models/response-model';
@@ -9,6 +9,7 @@ import { ResponseModel } from '../models/response-model';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  @Input() title: string = '';
   progress: number = 0;
   message: string = '';
   @Output() public onUploadFinished = new EventEmitter<ResponseModel<UploadFileResult>>();

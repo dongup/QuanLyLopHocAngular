@@ -91,6 +91,9 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("DaChamDiem")
+                        .HasColumnType("bit");
+
                     b.Property<string>("HoVaTen")
                         .HasColumnType("nvarchar(max)");
 
@@ -106,8 +109,11 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<string>("NhanXet")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TongDiem")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("ThoiGianNopBai")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TongDiem")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -130,8 +136,8 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Diem")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Diem")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("IdBaiTap")
                         .HasColumnType("int");

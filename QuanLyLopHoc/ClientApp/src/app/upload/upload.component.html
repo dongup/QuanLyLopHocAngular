@@ -1,15 +1,16 @@
 <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
 
-<div class="d-flex">
+<div class="d-flex h-100 align-item-center">
     <div>
       <button type="button" class="btn btn-light" title="Đọc dữ liệu từ excel" (click)="uploadBtnClick(file)">
         <span class="ti ti-file-import text-success"></span>
+        {{title}}
       </button>
       <span class="upload" *ngIf="progress > 0 && !message">
         {{progress}}%
       </span>
       <span class="upload" *ngIf="message">
-        {{message}}
+        <!--{{message}}-->
       </span>
     </div>
     <div class="spacer"></div>

@@ -34,6 +34,10 @@ export class LopHocAddComponent implements OnInit {
 
   }
 
+  removeSinhVien(sinhVien: SinhVien) {
+    this.newLopHoc.sinhViens = this.newLopHoc.sinhViens.filter(x => x.maSinhVien != sinhVien.maSinhVien);
+  }
+
   addBaiTap() {
     this.newLopHoc.baiTaps.push({
       noiDung: '',
@@ -50,12 +54,11 @@ export class LopHocAddComponent implements OnInit {
 
   excelUploaded(rspns: ResponseModel<UploadFileResult>) {
     let filePath: string = rspns.result.filePath;
-    this.http.get(this.apiUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
+    this.http.post(this.apiUrl + 'import/sinh-vien', { filePath: filePath })
       .subscribe((content) => {
         let rspns = content as ResponseModel<SinhVien[]>;
 
         this.newLopHoc.sinhViens = rspns.result;
-        //this.goBack();
       }
         , error => console.error(error));
   }

@@ -54,6 +54,8 @@ export class LopHocEditComponent implements OnInit {
   }
 
   removeSinhVien(idSinhVien: number) {
+    if (!window.confirm("Xóa sinh viên " + idSinhVien + "?")) return;
+
     this.http.delete(`${this.apiUrl}sinhVien/${idSinhVien}`)
       .subscribe((content) => {
         let res = content as ResponseModel<string>;
@@ -90,7 +92,7 @@ export class LopHocEditComponent implements OnInit {
 
   excelUploaded(rspns: ResponseModel<UploadFileResult>) {
     let filePath: string = rspns.result.filePath;
-    this.http.get(this.apiUrl + 'sinhvienimport/from-excel-file?filePath=' + filePath)
+    this.http.post(this.apiUrl + 'import/sinh-vien', { filePath: filePath })
       .subscribe((content) => {
         let rspns = content as ResponseModel<SinhVien[]>;
 

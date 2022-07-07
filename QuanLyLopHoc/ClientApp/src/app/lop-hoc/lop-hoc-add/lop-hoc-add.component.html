@@ -34,7 +34,7 @@
             <td>{{idx}}</td>
             <td>{{sinhVien.maSinhVien}}</td>
             <td>{{sinhVien.hoVaTen}}</td>  
-            <td class="autosize-column"><button class="btn btn-light"><span class="ti ti-minus text-danger"></span></button></td>
+            <td class="autosize-column"><button class="btn btn-light" type="button" (click)="removeSinhVien(sinhVien)"><span class="ti ti-minus text-danger"></span></button></td>
           </tr>
         </tbody>
       </table>

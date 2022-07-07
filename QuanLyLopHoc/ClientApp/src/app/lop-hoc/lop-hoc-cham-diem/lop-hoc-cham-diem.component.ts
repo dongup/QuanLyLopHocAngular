@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { __classPrivateFieldGet } from 'tslib';
 import { BaiTap, LopHoc, SinhVien } from '../../models/interfaces';
 import { ResponseModel } from '../../models/response-model';
+import { UploadFileResult } from '../../upload/upload.component';
 
 @Component({
   selector: 'app-lop-hoc-cham-diem',
@@ -15,19 +16,19 @@ export class LopHocChamDiemComponent implements OnInit {
   idLopHoc: number = 0;
 
   lopHoc: LopHoc = {
-      tenLopHoc: '',
-      id: 0,
-      sinhViens: [],
-      baiTaps: []
+    tenLopHoc: '',
+    id: 0,
+    sinhViens: [],
+    baiTaps: []
   };
 
   sinhViens: SinhVien[] = [];
   slctedSinhVien: SinhVien = {
-      id: 0,
-      maSinhVien: '',
-      hoVaTen: '',
-      idLopHoc: 0,
-      baiTaps: []
+    id: 0,
+    maSinhVien: '',
+    hoVaTen: '',
+    idLopHoc: 0,
+    baiTaps: []
   }
 
   editorOptions = {
@@ -43,7 +44,7 @@ export class LopHocChamDiemComponent implements OnInit {
     , private http: HttpClient
     , private toastr: ToastrService
     , @Inject('API_URL') private apiUrl: string
-    , @Inject('BASE_URL') private baseUrl: string  ) {
+    , @Inject('BASE_URL') private baseUrl: string) {
   }
 
   ngOnInit(): void {
@@ -52,6 +53,27 @@ export class LopHocChamDiemComponent implements OnInit {
 
     this.loadDataLopHoc();
     this.loadDataSinhVien();
+  }
+
+  uploadBaiLam() {
+
+  }
+
+  excelUploaded(rspns: ResponseModel<UploadFileResult>) {
+    let filePath: string = rspns.result.filePath;
+
+    this.http.post<ResponseModel<string>>(this.apiUrl + 'import/bai-lam/' + this.idLopHoc, { filePath: filePath })
+      .subscribe((rspns) => {
+        if (rspns.isSucceed) {
+          this.toastr.success(rspns.result);
+          this.loadDataSinhVien();
+        }
+
+        if (!rspns.isSucceed) {
+          this.toastr.error(rspns.message);
+        }
+      }
+        , error => this.toastr.error(error.message));
   }
 
   downLoadExcel() {
@@ -67,7 +89,7 @@ export class LopHocChamDiemComponent implements OnInit {
           this.toastr.error(rspns.message);
         }
       }
-      , error => console.error(error));
+        , error => console.error(error));
   }
 
   luuDiemSinhVien() {
@@ -84,11 +106,11 @@ export class LopHocChamDiemComponent implements OnInit {
       }),
     };
 
-    this.http.post(`${this.apiUrl}cham-diem`, request)
-      .subscribe(content => {
-        let rspns = content as ResponseModel<string>;
+    this.http.post<ResponseModel<string>>(`${this.apiUrl}cham-diem`, request)
+      .subscribe(rspns => {
         if (rspns.isSucceed) {
           this.toastr.success(rspns.result);
+          this.loadDataSinhVien();
         }
 
         if (!rspns.isSucceed) {
@@ -125,6 +147,17 @@ export class LopHocChamDiemComponent implements OnInit {
   }
 
   onSelectSinhVien(idSinhVien: number) {
+    if (idSinhVien == this.slctedSinhVien.id) {
+      this.slctedSinhVien = {
+        id: 0,
+        maSinhVien: '',
+        hoVaTen: '',
+        idLopHoc: 0,
+        baiTaps: []
+      };
+      return;
+    }
+
     let clickedSinhVien = this.sinhViens.find(x => x.id == idSinhVien);
     if (clickedSinhVien != undefined) {
       this.slctedSinhVien = clickedSinhVien;

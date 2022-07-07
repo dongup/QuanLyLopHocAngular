@@ -39,6 +39,26 @@ namespace QuanLyLopHoc.Controllers
 
             var dataExcel = _context.GetDateTable(query, idLopHoc);
 
+            var baiTaps = _context.BaiTaps.Where(x => x.IdLopHoc == idLopHoc).ToList();
+            foreach(var baiTap in baiTaps)
+            {
+                string diemCol = "Điểm câu " + baiTap.STT;
+                string nxCol = "Nhận xét câu " + baiTap.STT;
+                dataExcel.Columns.Add(new DataColumn(diemCol));
+                dataExcel.Columns.Add(new DataColumn(nxCol));
+                var baiLams = _context.SinhVienTraLois.Where(x => x.BaiTap.Id == baiTap.Id).ToList();
+
+                //Fill row
+                foreach(DataRow row in dataExcel.Rows)
+                {
+                    int idSinhVien = int.Parse(row["Id sinh viên"]?.ToString()??"0");
+                    var baiLamSv = baiLams.Where(x => x.IdSinhVien == idSinhVien).FirstOrDefault();
+
+                    row[diemCol] = baiLamSv?.Diem;
+                    row[nxCol] = baiLamSv?.NhanXet;
+                }
+            }
+
             string fileName = $"Kết quả lớp {lopHoc.TenLopHoc.RemoveForFileName()}.xlsx";
             string filePath = _excel.WriteToFile(fileName, dataExcel);
 
@@ -52,6 +72,7 @@ namespace QuanLyLopHoc.Controllers
             var result = _context.LopHocs
                 .Where(x => x.Id == idLopHoc)
                 .SelectMany(x => x.SinhViens)
+                .OrderBy(x => x.ThoiGianNopBai)
                 .Select(x => new
                 {
                     x.HoVaTen,
@@ -59,6 +80,8 @@ namespace QuanLyLopHoc.Controllers
                     x.Id,
                     x.TongDiem,
                     x.NhanXet,
+                    x.DaChamDiem,
+                    x.ThoiGianNopBai,
                     BaiTaps = x.TraLois.Select(a => new
                     {
                         IdTraLoi = a.Id,
@@ -85,6 +108,7 @@ namespace QuanLyLopHoc.Controllers
 
             sinhVien.TongDiem = value.TongDiem;
             sinhVien.NhanXet = value.NhanXet;
+            sinhVien.DaChamDiem = true;
 
             foreach(var diem in value.DiemSos)
             {

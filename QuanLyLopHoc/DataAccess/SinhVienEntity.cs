@@ -18,9 +18,13 @@ namespace QuanLyLopHoc.DataAccess
 
         public string MaSinhVien { get; set; }
 
-        public int TongDiem { get; set; }
+        public decimal TongDiem { get; set; }
 
         public string NhanXet { get; set; }
+
+        public bool DaChamDiem { get; set; }
+
+        public DateTime ThoiGianNopBai { get; set; }
 
         [ForeignKey(nameof(IdLopHoc))]
         public LopHocEntity LopHoc { get; set; } 

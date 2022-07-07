@@ -53,11 +53,9 @@ a {
   border-top: 1px dashed gray;
 }
 
-
 .border-right {
-  border-top: 1px dashed ;
+  border-right: 1px solid gray;
 }
-
 
 .mobile-top-bar {
   display: none !important steelblue;
@@ -77,6 +75,10 @@ a {
   border-bottom: 1px dashed gray;
 }
 
+.bg-success{
+    color: white;
+}
+
 .ngs-code-editor {
   display: flex;
   flex-direction: column;
@@ -91,6 +93,19 @@ a {
   max-height: calc(100vh - 215px);
   height: calc(100vh - 215px);
   overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  min-width: 220px;
+  /*width: 220px;
+  max-width: 220px;*/
+  overflow-x: auto;
+}
+
+.div-list-sinh-vien tr {
+  scroll-snap-align: start;
+}
+
+.div-list-sinh-vien td {
+  scroll-snap-align: start;
 }
 
 .div-exec-code {

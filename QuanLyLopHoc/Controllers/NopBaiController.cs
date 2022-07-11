@@ -34,28 +34,37 @@ namespace QuanLyLopHoc.Controllers
                     MaSinhVien = value.MaSinhVien,
                     HoVaTen = value.TenSinhVien,
                     IdLopHoc = value.IdLopHoc,
+                    ThoiGianNopBai = DateTime.Now,
                 };
             }
 
-            var savedCauTls = _context.SinhVienTraLois
-                .Where(x => x.IdSinhVien == sinhVien.Id
-                && x.IdLopHoc == value.IdLopHoc);
-            _context.SinhVienTraLois.RemoveRange(savedCauTls);
-            _context.SaveChanges();
-
-            var cauTraLois = value.TraLois
-                .Select(x => new SinhVienTraLoiEntity()
+            foreach(var traLoiRequest in value.TraLois)
+            {
+                var savedItem = _context.SinhVienTraLois
+                        .Where(x => x.IdBaiTap == traLoiRequest.IdBaiTap
+                                 && x.IdSinhVien == sinhVien.Id)
+                            .FirstOrDefault();
+                if(savedItem == null)
                 {
-                    IdBaiTap = x.IdBaiTap,
-                    SinhVien = sinhVien,
-                    IdLopHoc = value.IdLopHoc,
-                    CauTraLoi = x.TraLoi,
-                    CreatedDate = DateTime.Now,
-                }).ToList();
+                    savedItem = new SinhVienTraLoiEntity()
+                    {
+                        IdBaiTap = traLoiRequest.IdBaiTap,
+                        SinhVien = sinhVien,
+                        IdLopHoc = value.IdLopHoc,
+                        CauTraLoi = traLoiRequest.TraLoi,
+                        CreatedDate = DateTime.Now,
+                    };
+                    _context.SinhVienTraLois.Add(savedItem);
+                }
 
-
-            _context.SinhVienTraLois.AddRange(cauTraLois);
+                if(savedItem != null)
+                {
+                    savedItem.CauTraLoi = traLoiRequest.TraLoi;
+                }
+            }
+           
             _context.SaveChanges();
+
             return rspns.Succeed("Nộp bài thành công");
         }
        

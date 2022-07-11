@@ -18,7 +18,7 @@ namespace QuanLyLopHoc.DataAccess
 
         public string CauTraLoi { get; set; }
 
-        public int Diem { get; set; }
+        public decimal Diem { get; set; }
 
         public string NhanXet { get; set; }
 

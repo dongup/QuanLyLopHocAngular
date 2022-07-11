@@ -1,0 +1,336 @@
+.mud-input .mud-input-underline:before {
+  content: none !important;
+}
+
+.error-text {
+  font-size: 18px !important;
+}
+
+.border-dashed {
+  border: 1px dashed gray;
+  border-radius: 8px;
+}
+
+.border-right {
+  border-right: 1px solid gray;
+}
+
+.bg-primary {
+  color: white !important;
+}
+
+.btn {
+  /*text-transform: uppercase;*/
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.btn-light{
+    background-color: transparent;
+    border: none;
+}
+
+@media(min-width: 1400px) {
+  .d-xxl-table-cell {
+    display: table-cell !important;
+  }
+}
+
+.pop-menu {
+  overflow-x: unset !important;
+  overflow-y: unset !important;
+}
+
+.font-small {
+  font-size: 12px !important;
+}
+
+  .font-small span {
+    font-size: 12px !important;
+  }
+
+.autosize-column {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.input-cell {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  border: none !important;
+  border-radius: 0px;
+}
+
+.bg-disabled {
+  background-color: #e9ecef !important;
+  color: black !important;
+}
+
+
+.input-group {
+  width: fit-content;
+}
+
+.border-radius-none {
+  border-radius: 0px;
+}
+
+.btn-primary {
+  background-color: #0277bd !important;
+}
+
+
+.bg-primary tr td {
+  background-color: inherit !important;
+}
+
+.table-detail {
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-align: center;
+  scroll-snap-type: y;
+}
+
+.table-mix-his {
+  max-height: 329px !important;
+}
+
+.table-detail th {
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  color: white !important;
+  background-color: #0277bd;
+}
+
+.table-detail .table-foot {
+  z-index: 1;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+}
+
+.table-white th {
+  background-color: aliceblue !important;
+  color: black !important;
+}
+
+.top-button {
+  padding: 4px 0px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #d6d5d5;
+  align-items: center;
+  margin: -12px -12px 0px -12px;
+}
+
+.filter-header {
+  margin: -0px -12px 0px -12px;
+}
+
+
+.modal-scroll {
+  max-height: 700px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 0px !important;
+  width: 100%;
+}
+
+table {
+  margin: 0px !important;
+}
+
+.text-select-small {
+  font-size: 12px !important;
+}
+
+.text-dv {
+  font-size: 22px;
+  color: black;
+  color: #424242;
+}
+
+.highlight-number {
+  font-size: 32px;
+  color: #0277bd;
+  font-weight: bold;
+}
+
+.bg-info {
+  color: white !important;
+}
+
+  .bg-info b {
+    color: white !important;
+  }
+
+.bg-warning {
+  color: white !important;
+}
+
+.waste-panel {
+  max-height: 1150px;
+  overflow-y: scroll;
+}
+
+.wp-25 {
+  width: 25px !important;
+}
+
+.wp-125 {
+  width: 125px !important;
+}
+
+.wp-75 {
+  width: 75px !important;
+}
+
+.wp-250 {
+  width: 250px !important;
+}
+
+.wp-50 {
+  width: 50px !important;
+}
+
+.wp-100 {
+  width: 100px !important;
+}
+
+.wp-150 {
+  width: 150px !important;
+}
+
+.wp-200 {
+  width: 200px !important;
+}
+
+table {
+}
+
+
+.div-left {
+  text-align: right !important;
+  font-weight: bold;
+}
+
+
+.bg-danger {
+  color: white !important;
+}
+
+table th {
+  font-weight: normal !important;
+}
+
+.mud-table-cell {
+  padding: 6px !important;
+}
+
+.mud-tab-active {
+  background-color: white !important;
+  color: #0277bd !important;
+}
+
+.m-bg-primary {
+  background-color: #0277bd !important;
+  color: white !important;
+}
+
+.bg-success {
+  color: white !important;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px rgba(21, 156, 228, 0.4);
+}
+
+input:focus {
+  box-shadow: 0 0 0 4px rgba(21, 156, 228, 0.4);
+}
+
+span:focus {
+  box-shadow: 0 0 0 4px rgb(21 156 228 / 40%);
+}
+
+.form-control {
+  /*padding: 0px !important;*/
+}
+
+
+.no-transform {
+  text-transform: none !important;
+}
+
+.table td, .table th {
+  padding: 4px;
+  vertical-align: middle;
+}
+
+.table td {
+  padding: 4px 8px;
+}
+
+.bg-success {
+  color: white !important;
+}
+
+
+.m-table-primary th {
+  color: white !important;
+  background-color: #0277bd;
+  font-weight: normal !important;
+}
+
+.input[type="number"] {
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.hand {
+  cursor: pointer !important;
+}
+
+.mud-table-root {
+  border-collapse: collapse !important;
+}
+
+.btn-close {
+  padding: 6px !important;
+  float: right !important;
+}
+
+.nav-link-text {
+  font-weight: 500;
+}
+
+
+a, .btn-link {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.content {
+  padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+  outline: 1px solid #26b050;
+}
+
+.invalid {
+  outline: 1px solid red;
+}
+
+.validation-message {
+  color: red;
+}
+

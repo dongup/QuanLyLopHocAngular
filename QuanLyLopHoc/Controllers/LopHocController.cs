@@ -79,6 +79,7 @@ namespace QuanLyLopHoc.Controllers
             
             newItem.BaiTaps = value.BaiTaps.Select(x => new BaiTapEntity()
             {
+                DiemSo = x.Diem,
                 TieuDe = x.TieuDe,
                 NoiDung = x.NoiDung,
                 STT = x.STT

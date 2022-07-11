@@ -43,8 +43,8 @@ namespace QuanLyLopHoc.Controllers
                 }
                 return rspns.Succeed(new FileUploadResult()
                 {
-                    FilePath = savePath,
-                    FullServerPath = fullPath,
+                    FilePath = savePath.ToLinuxPath(),
+                    FullServerPath = fullPath.ToLinuxPath(),
                     FileName = randomFileName
                 });
             }

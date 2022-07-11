@@ -218,6 +218,35 @@ namespace QuanLyLopHoc.Utils
         }
 
         /// <summary>
+        /// Convert string qua datetime có chứa thông tin múi giờ
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTimeGTM(this string date)
+        {
+            DateTime now = DateTime.Now;
+            if (!string.IsNullOrEmpty(date))
+            {
+                date = date.Replace("GMT", "");
+                //Console.WriteLine("parsing date: " + date);
+                if (DateTime.TryParseExact(date, "yyyy/MM/dd h:mm:ss tt z", new CultureInfo("vi-VN"), DateTimeStyles.None, out DateTime dOutDate))
+                {
+                    return dOutDate;
+                }
+                else
+                {
+                    throw new Exception($"Ngày tháng không đúng định dạng");
+                }
+            }
+            else
+            {
+                return DateTime.Now;
+            }
+        }
+
+
+        /// <summary>
         /// Convert string qua datetime trả về ngày hiện tại nếu string null, quăng exception nếu string không đúng định dạng
         /// </summary>
         /// <param name="date"></param>

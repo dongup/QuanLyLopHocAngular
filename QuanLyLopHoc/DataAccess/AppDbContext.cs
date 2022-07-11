@@ -15,11 +15,13 @@ namespace QuanLyLopHoc.DataAccess
 
         public AppDbContext()
         {
+            Database.EnsureCreated();
         }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

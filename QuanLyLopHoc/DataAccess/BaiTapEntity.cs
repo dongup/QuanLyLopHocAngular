@@ -18,7 +18,7 @@ namespace QuanLyLopHoc.DataAccess
 
         public string NoiDung { get; set; }
 
-        public int DiemSo { get; set; }
+        public decimal DiemSo { get; set; }
 
         [ForeignKey(nameof(IdLopHoc))]
         public virtual LopHocEntity LopHoc { get; set; }

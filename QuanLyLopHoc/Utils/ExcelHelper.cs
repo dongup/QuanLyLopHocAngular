@@ -37,10 +37,47 @@ namespace QuanLyLopHoc.Utils
             return relativePath;
         }
 
-        public DataTable ReadData(string path)
+        public DataTable ReadData(string filePath)
         {
-            var dataTable = new DataTable("");
-            return dataTable;
+            // Open the Excel file using ClosedXML.
+            // Keep in mind the Excel file cannot be open when trying to read it
+            using (XLWorkbook workBook = new XLWorkbook(filePath))
+            {
+                //Read the first Sheet from Excel file.
+                IXLWorksheet workSheet = workBook.Worksheet(1);
+
+                //Create a new DataTable.
+                DataTable dt = new DataTable();
+
+                //Loop through the Worksheet rows.
+                bool firstRow = true;
+                foreach (IXLRow row in workSheet.Rows())
+                {
+                    //Use the first row to add columns to DataTable.
+                    if (firstRow)
+                    {
+                        foreach (IXLCell cell in row.Cells())
+                        {
+                            dt.Columns.Add(cell.Value.ToString());
+                        }
+                        firstRow = false;
+                    }
+                    else
+                    {
+                        //Add rows to DataTable.
+                        dt.Rows.Add();
+                        int i = 0;
+
+                        foreach (IXLCell cell in row.Cells(row.FirstCellUsed().Address.ColumnNumber, row.LastCellUsed().Address.ColumnNumber))
+                        {
+                            dt.Rows[dt.Rows.Count - 1][i] = cell.Value.ToString();
+                            i++;
+                        }
+                    }
+                }
+
+                return dt;
+            }
         }
     }
 }

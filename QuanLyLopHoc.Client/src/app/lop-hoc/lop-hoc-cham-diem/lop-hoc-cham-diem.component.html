@@ -115,8 +115,10 @@
       </div>
       <div class="spacer"></div>
       <div *ngIf="slctedSinhVien.id != 0" class="px-4 pt-1 border-top shadow-top">
+        <b class="text-success">Điểm cộng</b>
+        <input type="number" (change)="sumDiem()" step="0.5" class="form-control" [(ngModel)]="slctedSinhVien.diemCong"/>
         <b class="text-success">Nhận xét</b>
-        <textarea class="form-control" [(ngModel)]="slctedSinhVien.nhanXet" placeholder="Viết nhận xét về {{slctedSinhVien.hoVaTen}}"></textarea>
+        <textarea class="form-control" rows="2" [(ngModel)]="slctedSinhVien.nhanXet" placeholder="Viết nhận xét về {{slctedSinhVien.hoVaTen}}"></textarea>
         <div class="d-flex">
 
           <div class="spacer"></div>

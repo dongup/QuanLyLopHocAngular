@@ -5,13 +5,13 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getApiUrl() {
-  //return 'http://localhost:5000/api/';
-  return 'http://123.30.110.97:5001/api/';
+  return 'http://localhost:5000/api/';
+  //return 'http://123.30.110.97:5001/api/';
 }
 
 export function getBaseUrl() {
-  //return 'http://localhost:5000/';
-  return 'http://123.30.110.97:5001/';
+  return 'http://localhost:5000/';
+  //return 'http://123.30.110.97:5001/';
 }
 
 const providers = [

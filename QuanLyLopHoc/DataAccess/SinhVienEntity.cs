@@ -20,6 +20,8 @@ namespace QuanLyLopHoc.DataAccess
 
         public decimal TongDiem { get; set; }
 
+        public decimal DiemCong { get; set; }
+
         public string NhanXet { get; set; }
 
         public bool DaChamDiem { get; set; }

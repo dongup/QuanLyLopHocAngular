@@ -39,5 +39,6 @@ export interface SinhVien {
   tongDiem?: number,
   daChamDiem?: boolean,
   thoiGianNopBai?: Date,
+  diemCong?: number,
   baiTaps: BaiTap[]
 }

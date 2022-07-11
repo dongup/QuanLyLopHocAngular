@@ -28,7 +28,8 @@ export class LopHocChamDiemComponent implements OnInit {
     maSinhVien: '',
     hoVaTen: '',
     idLopHoc: 0,
-    baiTaps: []
+    baiTaps: [],
+    diemCong: 0,
   }
 
   editorOptions = {
@@ -96,6 +97,7 @@ export class LopHocChamDiemComponent implements OnInit {
     let request: any = {
       idSinhVien: this.slctedSinhVien.id,
       tongDiem: this.slctedSinhVien.tongDiem,
+      diemCong: this.slctedSinhVien.diemCong,
       nhanXet: this.slctedSinhVien.nhanXet,
       diemSos: this.slctedSinhVien.baiTaps.map(x => {
         return {
@@ -133,7 +135,8 @@ export class LopHocChamDiemComponent implements OnInit {
 
   sumDiem() {
     let diemArr = this.slctedSinhVien.baiTaps.map(x => x.diemCham ?? 0);
-    this.slctedSinhVien.tongDiem = diemArr.reduce((a, b) => a + b, 0);
+    this.slctedSinhVien.tongDiem = diemArr.reduce((a, b) => a + b, 0) + this.slctedSinhVien.diemCong;
+    if (this.slctedSinhVien.tongDiem > 10) this.slctedSinhVien.tongDiem = 10;
   }
 
   choDiemToiDa(baiTap: BaiTap) {

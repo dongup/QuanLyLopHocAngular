@@ -8,6 +8,7 @@ namespace QuanLyLopHoc.RequestModel
         public decimal TongDiem { get; set; }
         public string NhanXet { get; set; }
         public List<DiemSinhVienModel> DiemSos { get; set; }
+        public decimal DiemCong { get; set; }
     }
 
     public class DiemSinhVienModel
